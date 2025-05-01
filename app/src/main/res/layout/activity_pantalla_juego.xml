@@ -5,9 +5,199 @@
     android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".PantallaJuego">
+    tools:context=".PantallaJuego"
+    android:background="@color/white"
+    >
 
+    <LinearLayout
+        android:id="@+id/presentacion"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:background="@color/black"
+        >
+        <TextView
+            android:id="@+id/textoTitulo"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="@string/app_name"
+            android:textColor="@color/white"
+            android:textAlignment="center"
+            >
+        </TextView>
+    </LinearLayout>
 
+    <LinearLayout
+        android:id="@+id/navegacion"
+        app:layout_constraintTop_toBottomOf="@id/presentacion"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/black"
+        android:orientation="horizontal"
+        android:paddingTop="40dp"
+        >
 
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:orientation="vertical"
+            android:clickable="true"
+            >
 
+            <ImageView
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:src="@drawable/boton_play"
+                android:layout_gravity="center"
+                >
+            </ImageView>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/play"
+                android:textColor="@color/white"
+                android:layout_gravity="center"
+                android:textSize="12sp"
+                >
+            </TextView>
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:orientation="vertical"
+            android:clickable="true"
+            >
+
+            <ImageView
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:src="@drawable/boton_clasificacion"
+                android:layout_gravity="center"
+                >
+            </ImageView>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/score"
+                android:textColor="@color/white"
+                android:layout_gravity="center"
+                android:textSize="12sp"
+
+                >
+            </TextView>
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:orientation="vertical"
+            android:clickable="true"
+            >
+            <ImageView
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:src="@drawable/boton_opciones"
+                android:layout_gravity="center"
+                >
+            </ImageView>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/options"
+                android:textColor="@color/white"
+                android:layout_gravity="center"
+                android:textSize="12sp"
+                >
+            </TextView>
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:orientation="vertical"
+            android:clickable="true"
+            >
+            <ImageView
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:src="@drawable/boton_editor_preguntas"
+                android:layout_gravity="center"
+                >
+            </ImageView>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:text="@string/editor"
+                android:textColor="@color/white"
+                android:textSize="12sp"
+                >
+            </TextView>
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:orientation="vertical"
+            android:clickable="true"
+            >
+            <ImageView
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:src="@drawable/boton_logros"
+                android:layout_gravity="center"
+                >
+            </ImageView>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/logros"
+                android:textColor="@color/white"
+                android:layout_gravity="center"
+                android:textSize="12sp"
+                >
+            </TextView>
+        </LinearLayout>
+    </LinearLayout>
+
+    <ScrollView
+        app:layout_constraintTop_toBottomOf="@id/navegacion"
+        app:layout_constraintStart_toStartOf="parent"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+
+        <LinearLayout
+            app:layout_constraintTop_toBottomOf="@id/navegacion"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="15dp"
+            android:layout_marginStart="15dp"
+            android:layout_marginEnd="15dp"
+            android:orientation="vertical"
+            android:clickable="true"
+            >
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/categories"
+                android:textStyle="bold"
+                >
+            </TextView>
+        </LinearLayout>
+    </ScrollView>
 </androidx.constraintlayout.widget.ConstraintLayout>

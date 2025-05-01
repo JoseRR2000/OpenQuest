@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    /*Main Menu*/
+    <string name="app_name">OPENQUEST</string>
+    <string name="play">JUGAR</string>
+    <string name="options">OPCIONES</string>
+    
+    /*Inicio Sesion*/
+    <string name="login">INICIAR SESIÓN</string>
+    <string name="register">REGISTRARSE</string>
+    <string name="guest">ENTRAR COMO INVITADO</string>
+    <string name="exit">SALIR</string>
+
+
+</resources>

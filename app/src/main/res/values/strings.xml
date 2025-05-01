@@ -1,0 +1,13 @@
+<resources>
+    /*Menu Principal*/
+    <string name="app_name">OPENQUEST</string>
+    <string name="play">PLAY</string>
+    <string name="options">OPTIONS</string>
+
+    /*Inicio de sesion*/
+    <string name="login">LOGIN</string>
+    <string name="register">CREATE AN ACCOUNT</string>
+    <string name="guest">LOGIN AS A GUEST</string>
+    <string name="exit">EXIT</string>
+
+</resources>

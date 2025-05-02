@@ -9,4 +9,7 @@ import retrofit2.http.GET;
 public interface APIService {
     @GET("obtener_preguntas.php")
     Call<List<Pregunta>> obtenerPreguntas();
+
+    @GET("obtener_partidas.php")
+    Call<List<Partida>> obtenerPartidas();
 }

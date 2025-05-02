@@ -30,7 +30,6 @@
         </TextView>
     </LinearLayout>
 
-    /*Navegacion*/
     <LinearLayout
         android:id="@+id/navegacion"
         app:layout_constraintTop_toBottomOf="@id/presentacion"
@@ -67,6 +66,14 @@
                 android:textSize="12sp"
                 >
             </TextView>
+
+            <View
+                android:id="@+id/linea_jugar"
+                android:layout_width="match_parent"
+                android:layout_height="3dp"
+                android:background="@color/white"
+                android:visibility="visible">
+            </View>
         </LinearLayout>
 
         <LinearLayout
@@ -96,6 +103,14 @@
 
                 >
             </TextView>
+
+            <View
+                android:id="@+id/linea_ranking"
+                android:layout_width="match_parent"
+                android:layout_height="3dp"
+                android:background="@color/white"
+                android:visibility="invisible">
+            </View>
         </LinearLayout>
 
         <LinearLayout
@@ -123,6 +138,14 @@
                 android:textSize="12sp"
                 >
             </TextView>
+
+            <View
+                android:id="@+id/linea_opciones"
+                android:layout_width="match_parent"
+                android:layout_height="3dp"
+                android:background="@color/white"
+                android:visibility="invisible">
+            </View>
         </LinearLayout>
 
         <LinearLayout
@@ -150,6 +173,14 @@
                 android:textSize="12sp"
                 >
             </TextView>
+
+            <View
+                android:id="@+id/linea_editor"
+                android:layout_width="match_parent"
+                android:layout_height="3dp"
+                android:background="@color/white"
+                android:visibility="invisible">
+            </View>
         </LinearLayout>
 
         <LinearLayout
@@ -177,11 +208,20 @@
                 android:textSize="12sp"
                 >
             </TextView>
+
+            <View
+                android:id="@+id/linea_logros"
+                android:layout_width="match_parent"
+                android:layout_height="3dp"
+                android:background="@color/white"
+                android:visibility="invisible">
+            </View>
         </LinearLayout>
     </LinearLayout>
 
     /*Jugar*/
     <ScrollView
+        android:id="@+id/scroll1"
         app:layout_constraintTop_toBottomOf="@id/navegacion"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -432,6 +472,431 @@
         </LinearLayout>
     </ScrollView>
 
+    <ScrollView
+        android:id="@+id/scroll2"
+        app:layout_constraintTop_toBottomOf="@id/navegacion"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:fillViewport="true"
+        android:visibility="gone"
+        android:background="@color/white"
+        >
+        <LinearLayout
+            android:id="@+id/layout_ranking"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:orientation="vertical"
+            >
 
+            <TextView
+                android:id="@+id/texto_vacio"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="NO SE HA JUGADO NI UNA PARTIDA"
+                android:textColor="@color/black"
+                android:textStyle="bold"
+                android:textSize="18sp"
+                android:layout_gravity="center"
+                android:textAlignment="center"
+                >
+            </TextView>
 
+            <Space
+                android:layout_width="match_parent"
+                android:layout_height="40dp">
+            </Space>
+        </LinearLayout>
+    </ScrollView>
+
+    <ScrollView
+        android:id="@+id/scroll3"
+        app:layout_constraintTop_toBottomOf="@id/navegacion"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:fillViewport="true"
+        android:visibility="gone"
+        android:background="@color/white"
+        >
+
+        <LinearLayout
+            android:id="@+id/layout_opciones"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:orientation="vertical"
+            >
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:layout_marginStart="40dp"
+                android:layout_marginEnd="40dp"
+                android:paddingTop="20dp"
+                android:paddingBottom="20dp"
+                android:orientation="vertical"
+                android:background="#cec7c7"
+                >
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="SONIDO"
+                    android:textColor="@color/black"
+                    android:textStyle="bold"
+                    android:textSize="12sp"
+                    android:textAlignment="center"
+                    >
+                </TextView>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="30dp"
+                    android:layout_marginEnd="30dp"
+                    android:orientation="horizontal"
+                    >
+
+                    <ImageView
+                        android:layout_width="40dp"
+                        android:layout_height="40dp"
+                        android:src="@drawable/opciones_efectos_sonido"
+                        android:layout_gravity="center"
+                        >
+                    </ImageView>
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Efectos de sonido"
+                        android:textColor="@color/black"
+                        android:textStyle="normal"
+                        android:textSize="12sp"
+                        android:layout_marginStart="10dp"
+                        android:layout_gravity="center"
+                        >
+                    </TextView>
+
+                    <androidx.appcompat.widget.SwitchCompat
+                        android:id="@+id/switch_efecto_sonido"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:layout_marginStart="20dp"
+                        >
+                    </androidx.appcompat.widget.SwitchCompat>
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="30dp"
+                    android:layout_marginEnd="30dp"
+                    android:orientation="horizontal"
+                    >
+
+                    <ImageView
+                        android:layout_width="40dp"
+                        android:layout_height="40dp"
+                        android:src="@drawable/opciones_musica"
+                        android:layout_gravity="center"
+                        >
+                    </ImageView>
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Música del juego"
+                        android:textColor="@color/black"
+                        android:textStyle="normal"
+                        android:textSize="12sp"
+                        android:layout_marginStart="10dp"
+                        android:layout_gravity="center"
+                        >
+                    </TextView>
+
+                    <androidx.appcompat.widget.SwitchCompat
+                        android:id="@+id/switch_musica_juego"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:layout_marginStart="25dp"
+                        >
+                    </androidx.appcompat.widget.SwitchCompat>
+                </LinearLayout>
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:layout_marginStart="40dp"
+                android:layout_marginEnd="40dp"
+                android:paddingTop="20dp"
+                android:paddingBottom="20dp"
+                android:orientation="vertical"
+                android:background="#cec7c7"
+                >
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="IDIOMA"
+                    android:textColor="@color/black"
+                    android:textStyle="bold"
+                    android:textSize="12sp"
+                    android:textAlignment="center"
+                    >
+                </TextView>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="30dp"
+                    android:layout_marginEnd="30dp"
+                    android:orientation="horizontal"
+                    >
+
+                    <ImageView
+                        android:layout_width="40dp"
+                        android:layout_height="40dp"
+                        android:src="@drawable/spain"
+                        android:layout_gravity="center"
+                        >
+                    </ImageView>
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Idioma del juego"
+                        android:textColor="@color/black"
+                        android:textStyle="normal"
+                        android:textSize="12sp"
+                        android:layout_marginStart="10dp"
+                        android:layout_gravity="center"
+                        >
+                    </TextView>
+
+                    <Spinner
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="20dp"
+                        android:layout_gravity="center"
+                        >
+                    </Spinner>
+                </LinearLayout>
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:layout_marginStart="40dp"
+                android:layout_marginEnd="40dp"
+                android:paddingTop="20dp"
+                android:paddingBottom="20dp"
+                android:orientation="vertical"
+                android:background="#cec7c7"
+                >
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="CUENTA"
+                    android:textColor="@color/black"
+                    android:textStyle="bold"
+                    android:textSize="12sp"
+                    android:textAlignment="center"
+                    >
+                </TextView>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="30dp"
+                    android:layout_marginEnd="30dp"
+                    android:orientation="horizontal"
+                    >
+
+                    <ImageView
+                        android:layout_width="40dp"
+                        android:layout_height="40dp"
+                        android:src="@drawable/opciones_perfil"
+                        android:layout_gravity="center"
+                        >
+                    </ImageView>
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="Cambiar credenciales"
+                        android:textColor="@color/black"
+                        android:textStyle="normal"
+                        android:textSize="12sp"
+                        android:layout_marginStart="10dp"
+                        android:layout_gravity="center"
+                        >
+                    </TextView>
+
+                    <ImageView
+                        android:layout_width="40dp"
+                        android:layout_height="40dp"
+                        android:src="@drawable/flecha"
+                        android:clickable="true"
+                        >
+                    </ImageView>
+                </LinearLayout>
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:layout_marginStart="40dp"
+                android:layout_marginEnd="40dp"
+                android:paddingTop="20dp"
+                android:paddingBottom="20dp"
+                android:orientation="vertical"
+                android:background="#cec7c7"
+                >
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="CONFIGURACIÓN"
+                    android:textColor="@color/black"
+                    android:textStyle="bold"
+                    android:textSize="12sp"
+                    android:textAlignment="center"
+                    >
+                </TextView>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="30dp"
+                    android:layout_marginEnd="30dp"
+                    android:orientation="horizontal"
+                    >
+
+                    <ImageView
+                        android:layout_width="40dp"
+                        android:layout_height="40dp"
+                        android:src="@drawable/opciones_configuracion"
+                        android:layout_gravity="center"
+                        >
+                    </ImageView>
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="Dificultad"
+                        android:textColor="@color/black"
+                        android:textStyle="normal"
+                        android:textSize="12sp"
+                        android:layout_marginStart="10dp"
+                        android:layout_gravity="center"
+                        >
+                    </TextView>
+
+                    <Spinner
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        >
+                    </Spinner>
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="30dp"
+                    android:layout_marginEnd="30dp"
+                    android:orientation="horizontal"
+                    >
+
+                    <ImageView
+                        android:layout_width="40dp"
+                        android:layout_height="40dp"
+                        android:src="@drawable/opciones_eliminar_rondas"
+                        android:layout_gravity="center"
+                        >
+                    </ImageView>
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="Eliminar límite de rondas"
+                        android:textColor="@color/black"
+                        android:textStyle="normal"
+                        android:textSize="12sp"
+                        android:layout_marginStart="10dp"
+                        android:layout_gravity="center"
+                        >
+                    </TextView>
+
+                    <androidx.appcompat.widget.SwitchCompat
+                        android:id="@+id/switch_limite_rondas"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        >
+                    </androidx.appcompat.widget.SwitchCompat>
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="30dp"
+                    android:layout_marginEnd="30dp"
+                    android:orientation="horizontal"
+                    >
+
+                    <ImageView
+                        android:layout_width="40dp"
+                        android:layout_height="40dp"
+                        android:src="@drawable/opciones_eliminar_tiempo"
+                        android:layout_gravity="center"
+                        >
+                    </ImageView>
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="Eliminar límite de tiempo"
+                        android:textColor="@color/black"
+                        android:textStyle="normal"
+                        android:textSize="12sp"
+                        android:layout_marginStart="10dp"
+                        android:layout_gravity="center"
+                        >
+                    </TextView>
+
+                    <androidx.appcompat.widget.SwitchCompat
+                        android:id="@+id/switch_limite_tiempo"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        >
+                    </androidx.appcompat.widget.SwitchCompat>
+                </LinearLayout>
+            </LinearLayout>
+
+            <Space
+                android:layout_width="match_parent"
+                android:layout_height="40dp">
+            </Space>
+        </LinearLayout>
+    </ScrollView>
 </androidx.constraintlayout.widget.ConstraintLayout>

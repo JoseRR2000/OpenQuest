@@ -10,6 +10,13 @@
 
     /*Jugar*/
     <string name="categories">CATEGORÍAS</string>
+    <string name="all_categories">TODAS LAS CATEGORÍAS</string>
+    <string name="geography">GEOGRAFÍA</string>
+    <string name="history">HISTORIA</string>
+    <string name="entertaiment">ENTRETENIMIENTO</string>
+    <string name="sports">DEPORTES</string>
+    <string name="computing">INFORMÁTICA</string>
+    <string name="medicine">MEDICINA</string>
 
 
     /*Inicio Sesion*/

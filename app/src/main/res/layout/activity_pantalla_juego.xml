@@ -30,6 +30,7 @@
         </TextView>
     </LinearLayout>
 
+    /*Navegacion*/
     <LinearLayout
         android:id="@+id/navegacion"
         app:layout_constraintTop_toBottomOf="@id/presentacion"
@@ -41,6 +42,7 @@
         >
 
         <LinearLayout
+            android:id="@+id/botonJugar"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
@@ -68,6 +70,7 @@
         </LinearLayout>
 
         <LinearLayout
+            android:id="@+id/botonRanking"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
@@ -96,6 +99,7 @@
         </LinearLayout>
 
         <LinearLayout
+            android:id="@+id/botonOpciones"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
@@ -122,6 +126,7 @@
         </LinearLayout>
 
         <LinearLayout
+            android:id="@+id/botonEditor"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
@@ -148,6 +153,7 @@
         </LinearLayout>
 
         <LinearLayout
+            android:id="@+id/botonLogros"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
@@ -174,19 +180,22 @@
         </LinearLayout>
     </LinearLayout>
 
+    /*Jugar*/
     <ScrollView
         app:layout_constraintTop_toBottomOf="@id/navegacion"
         app:layout_constraintStart_toStartOf="parent"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content">
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:fillViewport="true"
+        android:background="@drawable/fondo_open_quest"
+        >
 
         <LinearLayout
-            app:layout_constraintTop_toBottomOf="@id/navegacion"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="15dp"
-            android:layout_marginStart="15dp"
-            android:layout_marginEnd="15dp"
             android:orientation="vertical"
             android:clickable="true"
             >
@@ -196,8 +205,233 @@
                 android:layout_height="wrap_content"
                 android:text="@string/categories"
                 android:textStyle="bold"
+                android:textColor="@color/white"
+                android:layout_gravity="center"
                 >
             </TextView>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:layout_marginStart="40dp"
+                android:layout_marginEnd="40dp"
+                android:paddingTop="15dp"
+                android:paddingBottom="15dp"
+                android:orientation="horizontal"
+                android:background="@color/black"
+                >
+                <ImageView
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:src="@drawable/todas_las_categorias"
+                    >
+                </ImageView>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/all_categories"
+                    android:textColor="@color/white"
+                    android:layout_gravity="center"
+                    android:layout_marginStart="30dp"
+                    >
+                </TextView>
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:layout_marginStart="40dp"
+                android:layout_marginEnd="40dp"
+                android:paddingTop="15dp"
+                android:paddingBottom="15dp"
+                android:orientation="horizontal"
+                android:background="@android:color/holo_blue_light"
+                >
+
+                <ImageView
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:src="@drawable/geografia"
+                    >
+                </ImageView>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/geography"
+                    android:textStyle="bold"
+                    android:textColor="@color/black"
+                    android:layout_gravity="center"
+                    android:layout_marginStart="30dp"
+                    >
+                </TextView>
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:layout_marginStart="40dp"
+                android:layout_marginEnd="40dp"
+                android:paddingTop="15dp"
+                android:paddingBottom="15dp"
+                android:orientation="horizontal"
+                android:background="#FFFF00"
+                >
+
+                <ImageView
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:src="@drawable/historia"
+                    >
+                </ImageView>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/history"
+                    android:textStyle="bold"
+                    android:textColor="@color/black"
+                    android:layout_gravity="center"
+                    android:layout_marginStart="30dp"
+                    >
+                </TextView>
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:layout_marginStart="40dp"
+                android:layout_marginEnd="40dp"
+                android:paddingTop="15dp"
+                android:paddingBottom="15dp"
+                android:orientation="horizontal"
+                android:background="@android:color/holo_purple"
+                >
+
+                <ImageView
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:src="@drawable/entretenimiento"
+                    >
+                </ImageView>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/entertaiment"
+                    android:textStyle="bold"
+                    android:textColor="@color/black"
+                    android:layout_gravity="center"
+                    android:layout_marginStart="30dp"
+                    >
+                </TextView>
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:layout_marginStart="40dp"
+                android:layout_marginEnd="40dp"
+                android:paddingTop="15dp"
+                android:paddingBottom="15dp"
+                android:orientation="horizontal"
+                android:background="@android:color/holo_green_light"
+                >
+
+                <ImageView
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:src="@drawable/deportes"
+                    >
+                </ImageView>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/sports"
+                    android:textStyle="bold"
+                    android:textColor="@color/black"
+                    android:layout_gravity="center"
+                    android:layout_marginStart="30dp"
+                    >
+                </TextView>
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:layout_marginStart="40dp"
+                android:layout_marginEnd="40dp"
+                android:paddingTop="15dp"
+                android:paddingBottom="15dp"
+                android:orientation="horizontal"
+                android:background="@android:color/darker_gray"
+                >
+
+                <ImageView
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:src="@drawable/informatica"
+                    >
+                </ImageView>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/computing"
+                    android:textStyle="bold"
+                    android:textColor="@color/black"
+                    android:layout_gravity="center"
+                    android:layout_marginStart="30dp"
+                    >
+                </TextView>
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:layout_marginStart="40dp"
+                android:layout_marginEnd="40dp"
+                android:paddingTop="15dp"
+                android:paddingBottom="15dp"
+                android:orientation="horizontal"
+                android:background="@android:color/holo_red_light"
+                >
+
+                <ImageView
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:src="@drawable/medicina"
+                    >
+                </ImageView>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/medicine"
+                    android:textStyle="bold"
+                    android:textColor="@color/black"
+                    android:layout_gravity="center"
+                    android:layout_marginStart="30dp"
+                    >
+                </TextView>
+            </LinearLayout>
+            
+            <Space
+                android:layout_width="match_parent"
+                android:layout_height="40dp">
+            </Space>
         </LinearLayout>
     </ScrollView>
+
+
+
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -18,6 +18,23 @@
     <string name="computing">INFORMÁTICA</string>
     <string name="medicine">MEDICINA</string>
 
+    /*Ranking*/
+    <string name="empty_matches">NO HAY PARTIDAS ALMACENADAS</string>
+
+    /*Opciones*/
+    <string name="sound">SONIDO</string>
+    <string name="sound_effects">Efectos de sonido</string>
+    <string name="game_music">Música del juego</string>
+    <string name="language">IDIOMA</string>
+    <string name="game_language">Idioma del juego</string>
+    <string name="account">CUENTA</string>
+    <string name="change_credentials">Cambiar credenciales</string>
+    <string name="configuration">CONFIGURACIÓN</string>
+    <string name="difficulty">Dificultad</string>
+    <string name="remove_round_limit">Eliminar límite de rondas</string>
+    <string name="remove_time_limit">Eliminar límite de tiempo</string>
+    <string name="english">Ingles</string>
+    <string name="spanish">Español</string>
 
     /*Inicio Sesion*/
     <string name="login">INICIAR SESIÓN</string>

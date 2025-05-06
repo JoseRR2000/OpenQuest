@@ -6,4 +6,10 @@
     </style>
 
     <style name="Theme.OpenQuest" parent="Base.Theme.OpenQuest" />
+
+    <style name="CustomSpinnerTheme" parent="Widget.AppCompat.Spinner">
+        <item name="android:textColor">@color/black</item>
+        <item name="android:backgroundTint">@color/black</item>
+    </style>
+
 </resources>

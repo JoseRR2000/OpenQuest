@@ -219,7 +219,6 @@
         </LinearLayout>
     </LinearLayout>
 
-    /*Jugar*/
     <ScrollView
         android:id="@+id/scroll1"
         app:layout_constraintTop_toBottomOf="@id/navegacion"
@@ -472,6 +471,7 @@
         </LinearLayout>
     </ScrollView>
 
+
     <ScrollView
         android:id="@+id/scroll2"
         app:layout_constraintTop_toBottomOf="@id/navegacion"
@@ -496,7 +496,7 @@
                 android:id="@+id/texto_vacio"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="NO SE HA JUGADO NI UNA PARTIDA"
+                android:text="@string/empty_matches"
                 android:textColor="@color/black"
                 android:textStyle="bold"
                 android:textSize="18sp"
@@ -548,7 +548,7 @@
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="SONIDO"
+                    android:text="@string/sound"
                     android:textColor="@color/black"
                     android:textStyle="bold"
                     android:textSize="12sp"
@@ -575,7 +575,7 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Efectos de sonido"
+                        android:text="@string/sound_effects"
                         android:textColor="@color/black"
                         android:textStyle="normal"
                         android:textSize="12sp"
@@ -613,7 +613,7 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Música del juego"
+                        android:text="@string/game_music"
                         android:textColor="@color/black"
                         android:textStyle="normal"
                         android:textSize="12sp"
@@ -648,7 +648,7 @@
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="IDIOMA"
+                    android:text="@string/language"
                     android:textColor="@color/black"
                     android:textStyle="bold"
                     android:textSize="12sp"
@@ -660,14 +660,14 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="30dp"
-                    android:layout_marginEnd="30dp"
                     android:orientation="horizontal"
                     >
 
                     <ImageView
+                        android:id="@+id/imagenBandera"
                         android:layout_width="40dp"
                         android:layout_height="40dp"
-                        android:src="@drawable/spain"
+                        android:src="@drawable/bandera"
                         android:layout_gravity="center"
                         >
                     </ImageView>
@@ -675,7 +675,7 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Idioma del juego"
+                        android:text="@string/game_language"
                         android:textColor="@color/black"
                         android:textStyle="normal"
                         android:textSize="12sp"
@@ -685,10 +685,11 @@
                     </TextView>
 
                     <Spinner
+                        android:id="@+id/spinner_idioma"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginStart="20dp"
                         android:layout_gravity="center"
+                        android:backgroundTint="@color/black"
                         >
                     </Spinner>
                 </LinearLayout>
@@ -709,7 +710,7 @@
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="CUENTA"
+                    android:text="@string/account"
                     android:textColor="@color/black"
                     android:textStyle="bold"
                     android:textSize="12sp"
@@ -737,7 +738,7 @@
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
-                        android:text="Cambiar credenciales"
+                        android:text="@string/change_credentials"
                         android:textColor="@color/black"
                         android:textStyle="normal"
                         android:textSize="12sp"
@@ -771,7 +772,7 @@
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="CONFIGURACIÓN"
+                    android:text="@string/configuration"
                     android:textColor="@color/black"
                     android:textStyle="bold"
                     android:textSize="12sp"
@@ -799,7 +800,7 @@
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
-                        android:text="Dificultad"
+                        android:text="@string/difficulty"
                         android:textColor="@color/black"
                         android:textStyle="normal"
                         android:textSize="12sp"
@@ -809,9 +810,12 @@
                     </TextView>
 
                     <Spinner
+                        android:id="@+id/spinner_dificultad"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
+                        android:backgroundTint="@color/black"
+
                         >
                     </Spinner>
                 </LinearLayout>
@@ -836,7 +840,7 @@
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
-                        android:text="Eliminar límite de rondas"
+                        android:text="@string/remove_round_limit"
                         android:textColor="@color/black"
                         android:textStyle="normal"
                         android:textSize="12sp"
@@ -874,7 +878,7 @@
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
-                        android:text="Eliminar límite de tiempo"
+                        android:text="@string/remove_time_limit"
                         android:textColor="@color/black"
                         android:textStyle="normal"
                         android:textSize="12sp"
@@ -892,6 +896,135 @@
                     </androidx.appcompat.widget.SwitchCompat>
                 </LinearLayout>
             </LinearLayout>
+
+            <Space
+                android:layout_width="match_parent"
+                android:layout_height="40dp">
+            </Space>
+        </LinearLayout>
+    </ScrollView>
+
+    <ScrollView
+        android:id="@+id/scroll4"
+        app:layout_constraintTop_toBottomOf="@id/navegacion"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:fillViewport="true"
+        android:visibility="visible"
+        android:background="@color/white"
+        >
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:orientation="vertical"
+            >
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/language"
+                android:textColor="@color/black"
+                android:textStyle="bold"
+                android:layout_gravity="center"
+                >
+            </TextView>
+
+            <Spinner
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:layout_gravity="center"
+                android:backgroundTint="@color/black"
+                >
+            </Spinner>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:text="categoría"
+                android:textColor="@color/black"
+                android:layout_gravity="center"
+                >
+            </TextView>
+
+            <RadioGroup
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:layout_marginStart="150dp"
+                android:padding="10dp"
+                >
+                    <RadioButton
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/geography"
+                        android:textSize="12sp"
+                        android:button="@drawable/radio_selector"
+                        android:padding="10dp"
+                        android:textColor="@color/black"
+                        >
+                    </RadioButton>
+
+                    <RadioButton
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/history"
+                        android:textSize="12sp"
+                        android:button="@drawable/radio_selector"
+                        android:padding="10dp"
+                        android:textColor="@color/black"
+                        >
+                    </RadioButton>
+
+
+                    <RadioButton
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/entertaiment"
+                        android:textSize="12sp"
+                        android:button="@drawable/radio_selector"
+                        android:padding="10dp"
+                        android:textColor="@color/black"
+                        >
+                    </RadioButton>
+
+                    <RadioButton
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/sports"
+                        android:textSize="12sp"
+                        android:button="@drawable/radio_selector"
+                        android:padding="10dp"
+                        android:textColor="@color/black"
+                        >
+                    </RadioButton>
+
+                    <RadioButton
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/computing"
+                        android:textSize="12sp"
+                        android:button="@drawable/radio_selector"
+                        android:padding="10dp"
+                        android:textColor="@color/black"
+                        >
+                    </RadioButton>
+
+                    <RadioButton
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/medicine"
+                        android:textSize="12sp"
+                        android:button="@drawable/radio_selector"
+                        android:padding="10dp"
+                        android:textColor="@color/black"
+                        >
+                    </RadioButton>
+            </RadioGroup>
 
             <Space
                 android:layout_width="match_parent"

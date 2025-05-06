@@ -1,11 +1,22 @@
 package com.example.openquest;
 
+import android.content.Context;
+import android.content.SharedPreferences;
+import android.content.res.Configuration;
 import android.media.AudioAttributes;
 import android.media.SoundPool;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.LocaleList;
+import android.os.Looper;
 import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
+import android.widget.CompoundButton;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ScrollView;
+import android.widget.Spinner;
 import android.widget.TextView;
 
 import androidx.activity.EdgeToEdge;
@@ -17,14 +28,25 @@ import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
 import java.util.List;
+import java.util.Locale;
 
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
 public class PantallaJuego extends AppCompatActivity {
-    private SoundPool sp;
     private int sonidoPulsar;
+    private boolean efectosActivados;
+    private boolean musicaActivada;
+    private final Handler handler = new Handler(Looper.getMainLooper());
+    private Runnable actualizarRanking;
+    private SoundPool sp;
+    private SwitchCompat scSonido;
+    private SwitchCompat scMusica;
+    private SwitchCompat scRondas;
+    private SwitchCompat scTiempo;
+    private Spinner spIdioma;
+    private Spinner spDificultad;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -36,10 +58,27 @@ public class PantallaJuego extends AppCompatActivity {
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
             return insets;
         });
-
         cargarEfectos();
         cambiarPestanas();
         obtenerRanking();
+        actualizarRanking();
+        opciones();
+        cargarAjustes();
+    }
+
+    private void cargarAjustes() {
+        SharedPreferences prefs = getSharedPreferences("MisPreferencias", MODE_PRIVATE);
+        efectosActivados = prefs.getBoolean("efectos", true);
+        musicaActivada = prefs.getBoolean("musica", true);
+        scSonido.setChecked(efectosActivados);
+        scMusica.setChecked(musicaActivada);
+
+        String idioma = prefs.getString("idioma", "es"); // valor por defecto: español
+        if (spIdioma != null) {
+            spIdioma.setSelection(idioma.equals("es") ? 1 : 0);
+        }
+
+
     }
 
     /*Funcion que se encarga de cargar el sonido de efectos*/
@@ -58,7 +97,7 @@ public class PantallaJuego extends AppCompatActivity {
     }
 
     /*Funcion encargada de controlar las pulsaciones de la barra de navegacion*/
-    private void controlarNavegacion(ScrollView s1, ScrollView s2, ScrollView s3, View v1, View v2, View v3) {
+    private void controlarNavegacion(ScrollView s1, ScrollView s2, ScrollView s3, View v1, View v2, View v3, boolean esRanking) {
 
         /*Hacemos visible la seccion que el usuario pulse e invisibles las demas*/
         s1.setVisibility(View.VISIBLE);
@@ -68,9 +107,16 @@ public class PantallaJuego extends AppCompatActivity {
         v2.setVisibility(View.INVISIBLE);
         v3.setVisibility(View.INVISIBLE);
 
-        /*Reproducimos sonido por cada pulsacion*/
-        sp.play(sonidoPulsar, 1, 1, 0, 0, 1);
+        if (esRanking) {
+            handler.post(actualizarRanking);
+        } else {
+            handler.removeCallbacks(actualizarRanking);
+        }
 
+        /*Reproducimos sonido por cada pulsacion*/
+        if (efectosActivados) {
+            sp.play(sonidoPulsar, 1, 1, 0, 0, 1);
+        }
     }
 
     /*Esta funcion se encarga de ejecutar la funcion anterior en cada listener
@@ -92,21 +138,21 @@ public class PantallaJuego extends AppCompatActivity {
         botonJugar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                controlarNavegacion(pestanaJugar, pestanaRanking, pestanaOpciones, lineaJugar, lineaRanking, lineaOpciones);
+                controlarNavegacion(pestanaJugar, pestanaRanking, pestanaOpciones, lineaJugar, lineaRanking, lineaOpciones, false);
             }
         });
 
         botonRanking.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                controlarNavegacion(pestanaRanking, pestanaJugar, pestanaOpciones, lineaRanking, lineaJugar, lineaOpciones);
+                controlarNavegacion(pestanaRanking, pestanaJugar, pestanaOpciones, lineaRanking, lineaJugar, lineaOpciones, true);
             }
         });
 
         botonOpciones.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                controlarNavegacion(pestanaOpciones, pestanaJugar, pestanaRanking, lineaOpciones, lineaJugar, lineaRanking);
+                controlarNavegacion(pestanaOpciones, pestanaJugar, pestanaRanking, lineaOpciones, lineaJugar, lineaRanking, false);
             }
         });
     }
@@ -127,6 +173,7 @@ public class PantallaJuego extends AppCompatActivity {
                         textoVacio.setVisibility(View.VISIBLE);
                     } else {
                         textoVacio.setVisibility(View.GONE);
+                        contenedor.removeAllViews();
                         for (Partida p : partidas) {
                             TextView tv = new TextView(PantallaJuego.this);
                             tv.setText(p.getJugador() + " - " + p.getPuntuacion() + " pts - " + p.getFecha());
@@ -147,7 +194,128 @@ public class PantallaJuego extends AppCompatActivity {
 
     /*Funcion que maneja el menu de opciones*/
     private void opciones() {
-        SwitchCompat sc1 = findViewById(R.id.switch_efecto_sonido);
+        ImageView bandera = findViewById(R.id.imagenBandera);
+        scSonido = findViewById(R.id.switch_efecto_sonido);
+        scMusica = findViewById(R.id.switch_musica_juego);
+        scRondas = findViewById(R.id.switch_limite_rondas);
+        scTiempo = findViewById(R.id.switch_limite_tiempo);
+        spIdioma = findViewById(R.id.spinner_idioma);
+        spDificultad = findViewById(R.id.spinner_dificultad);
+        String[] idiomas = {getString(R.string.english), getString(R.string.spanish)};
+        String[] dificultades = {"Fácil", "Normal", "Difícil"};
+
+        /*Switches*/
+        scSonido.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton compoundButton, boolean isChecked) {
+                efectosActivados = isChecked;
+
+                SharedPreferences configEfectos = getSharedPreferences("MisPreferencias", MODE_PRIVATE);
+                SharedPreferences.Editor configuracion = configEfectos.edit();
+                configuracion.putBoolean("efectos", isChecked);
+                configuracion.apply();
+            }
+        });
+
+        scMusica.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton compoundButton, boolean isChecked) {
+                musicaActivada = isChecked;
+
+                SharedPreferences configMusica = getSharedPreferences("MisPreferencias", MODE_PRIVATE);
+                SharedPreferences.Editor configuracion = configMusica.edit();
+                configuracion.putBoolean("musica", isChecked);
+                configuracion.apply();
+            }
+        });
+
+        //Introducir switches de limite rondas y limite tiempo en el futuro
+
+
+        /*Spinners*/
+        ArrayAdapter<String> adaptadorIdiomas = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, idiomas);
+        adaptadorIdiomas.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+
+        spIdioma.setAdapter(adaptadorIdiomas);
+
+        ArrayAdapter<String> adaptadorDificultad = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, dificultades);
+        adaptadorDificultad.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        spDificultad.setAdapter(adaptadorDificultad);
+
+        String idiomaActual = Locale.getDefault().getLanguage();
+        spIdioma.setSelection(idiomaActual.equals("es") ? 1 : 0);
+
+        final boolean[] primeraVez = {true};
+
+        spIdioma.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> adapterView, View view, int posicion, long id) {
+                if (primeraVez[0]) {
+                    primeraVez[0] = false;
+                    return;
+                }
+
+                String nuevoIdioma = "";
+
+                if (posicion == 0) {
+                    nuevoIdioma = "en";
+                    bandera.setImageResource(R.drawable.bandera);
+                }
+                else {
+                    nuevoIdioma = "es";
+                    bandera.setImageResource(R.drawable.bandera);
+                }
+
+                cambiarIdioma(nuevoIdioma);
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> adapterView) {
+
+            }
+        });
+    }
+
+    private void cambiarIdioma(String nuevoIdioma) {
+        SharedPreferences prefs = getSharedPreferences("MisPreferencias", MODE_PRIVATE);
+        String idiomaActual = prefs.getString("idioma", "es");
+
+        if (!nuevoIdioma.equals(idiomaActual)) {
+            prefs.edit().putString("idioma", nuevoIdioma).apply();
+            Locale nuevoLocale = new Locale(nuevoIdioma);
+            Locale.setDefault(nuevoLocale);
+            Configuration config = new Configuration();
+            config.setLocale(nuevoLocale);
+            getResources().updateConfiguration(config, getResources().getDisplayMetrics());
+
+            recreate();
+        }
+    }
+    @Override
+    protected void attachBaseContext(Context newBase) {
+        SharedPreferences prefs = newBase.getSharedPreferences("MisPreferencias", MODE_PRIVATE);
+        String idioma = prefs.getString("idioma", "es");
+
+        Locale nuevoLocale = new Locale(idioma);
+        Locale.setDefault(nuevoLocale);
+
+        Configuration config = newBase.getResources().getConfiguration();
+        config.setLocale(nuevoLocale);
+
+        Context contextoActualizado = newBase.createConfigurationContext(config);
+        super.attachBaseContext(contextoActualizado);
+    }
+
+
+    private void actualizarRanking() {
+        actualizarRanking = new Runnable() {
+            @Override
+            public void run() {
+                obtenerRanking();
+                handler.postDelayed(this, 2000);
+            }
+        };
+
     }
 
     @Override

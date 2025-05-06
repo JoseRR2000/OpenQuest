@@ -7,7 +7,7 @@
     <string name="editor">EDITOR</string>
     <string name="logros">REWARDS</string>
 
-    /*Jugar*/
+    /*Play*/
     <string name="categories">CATEGORIES</string>
     <string name="all_categories">ALL CATEGORIES</string>
     <string name="geography">GEOGRAPHY</string>
@@ -16,6 +16,24 @@
     <string name="sports">SPORTS</string>
     <string name="computing">COMPUTING</string>
     <string name="medicine">MEDICINE</string>
+
+    /*Ranking*/
+    <string name="empty_matches">THERE ARE NO SAVED GAMES</string>
+
+    /*Options*/
+    <string name="sound">SOUND</string>
+    <string name="sound_effects">Sound effects</string>
+    <string name="game_music">Game music</string>
+    <string name="language">LANGUAGE</string>
+    <string name="game_language">Game language</string>
+    <string name="account">ACCOUNT</string>
+    <string name="change_credentials">Change credentials</string>
+    <string name="configuration">CONFIGURATION</string>
+    <string name="difficulty">Difficulty</string>
+    <string name="remove_round_limit">Remove round limit</string>
+    <string name="remove_time_limit">Remove time limit</string>
+    <string name="english">English</string>
+    <string name="spanish">Spanish</string>
 
     /*Login*/
     <string name="login">LOGIN</string>

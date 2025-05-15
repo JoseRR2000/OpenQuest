@@ -15,6 +15,12 @@
         android:theme="@style/Theme.OpenQuest"
         tools:targetApi="31">
         <activity
+            android:name=".Juego"
+            android:exported="false" />
+        <activity
+            android:name=".PantallaCrearPregunta"
+            android:exported="false" />
+        <activity
             android:name=".PantallaJuego"
             android:exported="false" />
         <activity

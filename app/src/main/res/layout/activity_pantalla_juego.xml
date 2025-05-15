@@ -6,7 +6,6 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".PantallaJuego"
-    android:background="@color/white"
     >
 
     <LinearLayout
@@ -250,6 +249,7 @@
             </TextView>
 
             <LinearLayout
+                android:id="@+id/modo_todas_categorias"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="20dp"
@@ -279,6 +279,7 @@
             </LinearLayout>
 
             <LinearLayout
+                android:id="@+id/modo_geografia"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="20dp"
@@ -310,6 +311,7 @@
             </LinearLayout>
 
             <LinearLayout
+                android:id="@+id/modo_historia"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="20dp"
@@ -341,6 +343,7 @@
             </LinearLayout>
 
             <LinearLayout
+                android:id="@+id/modo_entretenimiento"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="20dp"
@@ -372,6 +375,7 @@
             </LinearLayout>
 
             <LinearLayout
+                android:id="@+id/modo_deportes"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="20dp"
@@ -403,6 +407,7 @@
             </LinearLayout>
 
             <LinearLayout
+                android:id="@+id/modo_informatica"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="20dp"
@@ -434,6 +439,7 @@
             </LinearLayout>
 
             <LinearLayout
+                android:id="@+id/modo_medicina"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="20dp"
@@ -913,122 +919,66 @@
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:fillViewport="true"
-        android:visibility="visible"
+        android:visibility="gone"
         android:background="@color/white"
         >
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="20dp"
             android:orientation="vertical"
+            android:gravity="center"
             >
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/language"
-                android:textColor="@color/black"
-                android:textStyle="bold"
-                android:layout_gravity="center"
-                >
-            </TextView>
 
-            <Spinner
+            <Button
+                android:id="@+id/btn_crear"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:text="CREAR PREGUNTA"
+                >
+            </Button>
+
+            <Button
+                android:id="@+id/btn_editar"
                 android:layout_marginTop="20dp"
-                android:layout_gravity="center"
-                android:backgroundTint="@color/black"
-                >
-            </Spinner>
-
-            <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="20dp"
-                android:text="categoría"
-                android:textColor="@color/black"
-                android:layout_gravity="center"
+                android:text="EDITAR PREGUNTA"
                 >
-            </TextView>
+            </Button>
+        </LinearLayout>
+    </ScrollView>
 
-            <RadioGroup
+    <ScrollView
+        android:id="@+id/scroll5"
+        app:layout_constraintTop_toBottomOf="@id/navegacion"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:fillViewport="true"
+        android:visibility="gone"
+        android:background="@color/white"
+        >
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_gravity="center"
+            >
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/recyclerLogros"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:layout_marginStart="150dp"
-                android:padding="10dp"
-                >
-                    <RadioButton
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="@string/geography"
-                        android:textSize="12sp"
-                        android:button="@drawable/radio_selector"
-                        android:padding="10dp"
-                        android:textColor="@color/black"
-                        >
-                    </RadioButton>
-
-                    <RadioButton
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="@string/history"
-                        android:textSize="12sp"
-                        android:button="@drawable/radio_selector"
-                        android:padding="10dp"
-                        android:textColor="@color/black"
-                        >
-                    </RadioButton>
-
-
-                    <RadioButton
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="@string/entertaiment"
-                        android:textSize="12sp"
-                        android:button="@drawable/radio_selector"
-                        android:padding="10dp"
-                        android:textColor="@color/black"
-                        >
-                    </RadioButton>
-
-                    <RadioButton
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="@string/sports"
-                        android:textSize="12sp"
-                        android:button="@drawable/radio_selector"
-                        android:padding="10dp"
-                        android:textColor="@color/black"
-                        >
-                    </RadioButton>
-
-                    <RadioButton
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="@string/computing"
-                        android:textSize="12sp"
-                        android:button="@drawable/radio_selector"
-                        android:padding="10dp"
-                        android:textColor="@color/black"
-                        >
-                    </RadioButton>
-
-                    <RadioButton
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="@string/medicine"
-                        android:textSize="12sp"
-                        android:button="@drawable/radio_selector"
-                        android:padding="10dp"
-                        android:textColor="@color/black"
-                        >
-                    </RadioButton>
-            </RadioGroup>
+                android:layout_height="0dp"
+                android:layout_weight="1">
+            </androidx.recyclerview.widget.RecyclerView>
 
             <Space
                 android:layout_width="match_parent"
-                android:layout_height="40dp">
+                android:layout_height="40dp"
+                >
             </Space>
         </LinearLayout>
     </ScrollView>

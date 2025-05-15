@@ -1,23 +1,26 @@
 package com.example.openquest;
 
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.res.Configuration;
 import android.media.AudioAttributes;
+import android.media.MediaPlayer;
 import android.media.SoundPool;
 import android.os.Bundle;
 import android.os.Handler;
-import android.os.LocaleList;
 import android.os.Looper;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.CompoundButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ScrollView;
 import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
 import androidx.annotation.NonNull;
@@ -26,7 +29,10 @@ import androidx.appcompat.widget.SwitchCompat;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 
@@ -41,12 +47,16 @@ public class PantallaJuego extends AppCompatActivity {
     private final Handler handler = new Handler(Looper.getMainLooper());
     private Runnable actualizarRanking;
     private SoundPool sp;
+    private MediaPlayer mp;
     private SwitchCompat scSonido;
     private SwitchCompat scMusica;
     private SwitchCompat scRondas;
     private SwitchCompat scTiempo;
     private Spinner spIdioma;
     private Spinner spDificultad;
+    private RecyclerView recyclerLogros;
+    private LogrosAdapter adapter;
+    private List<Logro> listaLogros = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -58,12 +68,24 @@ public class PantallaJuego extends AppCompatActivity {
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
             return insets;
         });
-        cargarEfectos();
+        cargarAdaptadores();
+        cargarAudio();
         cambiarPestanas();
         obtenerRanking();
         actualizarRanking();
+        jugar();
         opciones();
+        editor();
+        logros();
         cargarAjustes();
+    }
+
+    private void cargarAdaptadores() {
+        recyclerLogros = findViewById(R.id.recyclerLogros);
+        recyclerLogros.setLayoutManager(new LinearLayoutManager(this));
+
+        adapter = new LogrosAdapter(listaLogros);
+        recyclerLogros.setAdapter(adapter);
     }
 
     private void cargarAjustes() {
@@ -73,39 +95,42 @@ public class PantallaJuego extends AppCompatActivity {
         scSonido.setChecked(efectosActivados);
         scMusica.setChecked(musicaActivada);
 
-        String idioma = prefs.getString("idioma", "es"); // valor por defecto: español
+        String idioma = prefs.getString("idioma", "es");
         if (spIdioma != null) {
             spIdioma.setSelection(idioma.equals("es") ? 1 : 0);
         }
-
-
     }
 
     /*Funcion que se encarga de cargar el sonido de efectos*/
-    private void cargarEfectos() {
-            AudioAttributes audioAttributes = new AudioAttributes.Builder()
-                    .setUsage(AudioAttributes.USAGE_GAME)
-                    .setContentType(AudioAttributes.CONTENT_TYPE_SONIFICATION)
-                    .build();
+    private void cargarAudio() {
+        AudioAttributes audioAttributes = new AudioAttributes.Builder()
+                .setUsage(AudioAttributes.USAGE_GAME)
+                .setContentType(AudioAttributes.CONTENT_TYPE_SONIFICATION)
+                .build();
 
-            sp = new SoundPool.Builder()
-                    .setMaxStreams(5)
-                    .setAudioAttributes(audioAttributes)
-                    .build();
+        sp = new SoundPool.Builder()
+                .setMaxStreams(5)
+                .setAudioAttributes(audioAttributes)
+                .build();
 
-            sonidoPulsar = sp.load(this, R.raw.pulsar_boton, 1);
+        sonidoPulsar = sp.load(this, R.raw.pulsar_boton, 1);
     }
 
     /*Funcion encargada de controlar las pulsaciones de la barra de navegacion*/
-    private void controlarNavegacion(ScrollView s1, ScrollView s2, ScrollView s3, View v1, View v2, View v3, boolean esRanking) {
+    private void controlarNavegacion(ScrollView s1, ScrollView s2, ScrollView s3, ScrollView s4, ScrollView s5, View v1, View v2, View v3, View v4, View v5, boolean esRanking) {
 
         /*Hacemos visible la seccion que el usuario pulse e invisibles las demas*/
         s1.setVisibility(View.VISIBLE);
         s2.setVisibility(View.GONE);
         s3.setVisibility(View.GONE);
+        s4.setVisibility(View.GONE);
+        s5.setVisibility(View.GONE);
+
         v1.setVisibility(View.VISIBLE);
         v2.setVisibility(View.INVISIBLE);
         v3.setVisibility(View.INVISIBLE);
+        v4.setVisibility(View.INVISIBLE);
+        v5.setVisibility(View.INVISIBLE);
 
         if (esRanking) {
             handler.post(actualizarRanking);
@@ -120,7 +145,7 @@ public class PantallaJuego extends AppCompatActivity {
     }
 
     /*Esta funcion se encarga de ejecutar la funcion anterior en cada listener
-    * de los botones de la barra de navegacion*/
+     * de los botones de la barra de navegacion*/
     private void cambiarPestanas() {
         LinearLayout botonJugar = findViewById(R.id.botonJugar);
         LinearLayout botonRanking = findViewById(R.id.botonRanking);
@@ -130,29 +155,111 @@ public class PantallaJuego extends AppCompatActivity {
         ScrollView pestanaJugar = findViewById(R.id.scroll1);
         ScrollView pestanaRanking = findViewById(R.id.scroll2);
         ScrollView pestanaOpciones = findViewById(R.id.scroll3);
+        ScrollView pestanaEditor = findViewById(R.id.scroll4);
+        ScrollView pestanaLogros = findViewById(R.id.scroll5);
         View lineaJugar = findViewById(R.id.linea_jugar);
         View lineaRanking = findViewById(R.id.linea_ranking);
         View lineaOpciones = findViewById(R.id.linea_opciones);
+        View lineaEditor = findViewById(R.id.linea_editor);
+        View lineaLogros = findViewById(R.id.linea_logros);
 
         /*Listeners*/
         botonJugar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                controlarNavegacion(pestanaJugar, pestanaRanking, pestanaOpciones, lineaJugar, lineaRanking, lineaOpciones, false);
+                controlarNavegacion(pestanaJugar, pestanaRanking, pestanaOpciones, pestanaEditor, pestanaLogros, lineaJugar, lineaRanking, lineaOpciones, lineaEditor, lineaLogros, false);
             }
         });
 
         botonRanking.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                controlarNavegacion(pestanaRanking, pestanaJugar, pestanaOpciones, lineaRanking, lineaJugar, lineaOpciones, true);
+                controlarNavegacion(pestanaRanking, pestanaJugar, pestanaOpciones, pestanaEditor, pestanaLogros, lineaRanking, lineaJugar, lineaOpciones, lineaEditor, lineaLogros, true);
             }
         });
 
         botonOpciones.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                controlarNavegacion(pestanaOpciones, pestanaJugar, pestanaRanking, lineaOpciones, lineaJugar, lineaRanking, false);
+                controlarNavegacion(pestanaOpciones, pestanaJugar, pestanaRanking, pestanaEditor, pestanaLogros, lineaOpciones, lineaJugar, lineaRanking, lineaEditor, lineaLogros, false);
+            }
+        });
+
+        botonEditor.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                controlarNavegacion(pestanaEditor, pestanaJugar, pestanaRanking, pestanaOpciones, pestanaLogros, lineaEditor, lineaJugar, lineaRanking, lineaOpciones, lineaLogros, false);
+            }
+        });
+
+        botonLogros.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                controlarNavegacion(pestanaLogros, pestanaJugar, pestanaRanking, pestanaOpciones, pestanaEditor, lineaLogros, lineaJugar, lineaRanking, lineaOpciones, lineaEditor, false);
+            }
+        });
+    }
+
+    private void jugar() {
+        LinearLayout todasCategorias = findViewById(R.id.modo_todas_categorias);
+        LinearLayout geografia = findViewById(R.id.modo_geografia);
+        LinearLayout historia = findViewById(R.id.modo_historia);
+        LinearLayout entretenimiento = findViewById(R.id.modo_entretenimiento);
+        LinearLayout deportes = findViewById(R.id.modo_deportes);
+        LinearLayout informatica = findViewById(R.id.modo_informatica);
+        LinearLayout medicina = findViewById(R.id.modo_medicina);
+
+        todasCategorias.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(PantallaJuego.this, Juego.class);
+                intent.putExtra("modo", "todas");
+                startActivity(intent);
+            }
+        });
+
+        geografia.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(PantallaJuego.this, Juego.class);
+                intent.putExtra("modo", "categoria");
+                intent.putExtra("categoria", "geografia");
+                startActivity(intent);
+            }
+        });
+
+        historia.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+            }
+        });
+
+        entretenimiento.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+            }
+        });
+
+        deportes.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+            }
+        });
+
+        informatica.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+            }
+        });
+
+        medicina.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
             }
         });
     }
@@ -165,7 +272,7 @@ public class PantallaJuego extends AppCompatActivity {
 
         retro.api.obtenerPartidas().enqueue(new Callback<List<Partida>>() {
 
-           @Override
+            @Override
             public void onResponse(@NonNull Call<List<Partida>> call, @NonNull Response<List<Partida>> response) {
                 if (response.isSuccessful() && response.body() != null) {
                     List<Partida> partidas = response.body();
@@ -226,6 +333,18 @@ public class PantallaJuego extends AppCompatActivity {
                 SharedPreferences.Editor configuracion = configMusica.edit();
                 configuracion.putBoolean("musica", isChecked);
                 configuracion.apply();
+
+                if (isChecked) {
+                    if (mp == null) {
+                        mp = MediaPlayer.create(PantallaJuego.this, R.raw.musica_juego);
+                        mp.setLooping(true);
+                    }
+                    mp.start();
+                } else {
+                    if (mp != null && mp.isPlaying()) {
+                        mp.pause();
+                    }
+                }
             }
         });
 
@@ -260,8 +379,7 @@ public class PantallaJuego extends AppCompatActivity {
                 if (posicion == 0) {
                     nuevoIdioma = "en";
                     bandera.setImageResource(R.drawable.bandera);
-                }
-                else {
+                } else {
                     nuevoIdioma = "es";
                     bandera.setImageResource(R.drawable.bandera);
                 }
@@ -272,6 +390,40 @@ public class PantallaJuego extends AppCompatActivity {
             @Override
             public void onNothingSelected(AdapterView<?> adapterView) {
 
+            }
+        });
+    }
+
+    private void editor() {
+        Button botonCrearPreguntas = findViewById(R.id.btn_crear);
+        Button botonEditarPreguntas = findViewById(R.id.btn_editar);
+
+        botonCrearPreguntas.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(PantallaJuego.this, PantallaCrearPregunta.class);
+                startActivity(intent);
+            }
+        });
+    }
+
+    private void logros() {
+        Retrofit retro = new Retrofit();
+
+        retro.api.obtenerLogros().enqueue(new Callback<List<Logro>>() {
+
+            @Override
+            public void onResponse(@NonNull Call<List<Logro>> call, @NonNull Response<List<Logro>> response) {
+                if (response.isSuccessful() && response.body() != null) {
+                    listaLogros.clear();
+                    listaLogros.addAll(response.body());
+                    adapter.notifyDataSetChanged();
+                }
+            }
+
+            @Override
+            public void onFailure(@NonNull Call<List<Logro>> call, @NonNull Throwable t) {
+                Toast.makeText(PantallaJuego.this, "Error: " + t.getMessage(), Toast.LENGTH_LONG).show();
             }
         });
     }
@@ -291,6 +443,7 @@ public class PantallaJuego extends AppCompatActivity {
             recreate();
         }
     }
+
     @Override
     protected void attachBaseContext(Context newBase) {
         SharedPreferences prefs = newBase.getSharedPreferences("MisPreferencias", MODE_PRIVATE);
@@ -325,6 +478,10 @@ public class PantallaJuego extends AppCompatActivity {
         if (sp != null) {
             sp.release();
             sp = null;
+        }
+
+        if (mp != null) {
+            mp.release();
         }
     }
 }

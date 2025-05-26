@@ -32,6 +32,7 @@
                 >
 
                 <TextView
+                    android:id="@+id/texto_puntuacion"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="puntuacion: "
@@ -42,6 +43,7 @@
                 </TextView>
 
                 <TextView
+                    android:id="@+id/texto_puntos"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="0"
@@ -70,12 +72,11 @@
                 <TextView
                     android:id="@+id/texto_tiempo"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_gravity="center"
                     android:text="30"
                     android:textColor="@color/black"
-                    android:textStyle="bold"
-                    android:layout_gravity="center"
-                    >
+                    android:textStyle="bold">
                 </TextView>
             </LinearLayout>
         </LinearLayout>
@@ -88,6 +89,7 @@
         </View>
 
         <LinearLayout
+            android:id="@+id/cajaPregunta"
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_weight="1"
@@ -116,6 +118,7 @@
         </View>
 
         <LinearLayout
+            android:id="@+id/cajaRespuesta1"
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_weight="1"
@@ -142,6 +145,7 @@
         </View>
 
         <LinearLayout
+            android:id="@+id/cajaRespuesta2"
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_weight="1"
@@ -168,6 +172,7 @@
         </View>
 
         <LinearLayout
+            android:id="@+id/cajaRespuesta3"
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_weight="1"
@@ -194,6 +199,7 @@
         </View>
 
         <LinearLayout
+            android:id="@+id/cajaRespuesta4"
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_weight="1"

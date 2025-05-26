@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.view.View;
 import android.widget.Button;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -26,6 +27,10 @@ import retrofit2.Response;
 public class Juego extends AppCompatActivity {
     private CountDownTimer contador;
     private TextView tiempo;
+    private long tiempoRestante;
+    private int puntuacion = 0;
+    private TextView textoPuntuacion;
+    private TextView textoPuntos;
     private List<Pregunta> listaPreguntas;
     private int indicePregunta;
     private Random random;
@@ -34,6 +39,10 @@ public class Juego extends AppCompatActivity {
     private TextView respuesta2;
     private TextView respuesta3;
     private TextView respuesta4;
+    private LinearLayout cajaRespuesta1;
+    private LinearLayout cajaRespuesta2;
+    private LinearLayout cajaRespuesta3;
+    private LinearLayout cajaRespuesta4;
     private Button btnSiguiente;
 
     @Override
@@ -63,6 +72,7 @@ public class Juego extends AppCompatActivity {
         contador = new CountDownTimer(30000, 1000) {
             public void onTick(long millisUntilFinished) {
                 tiempo.setText(String.valueOf(millisUntilFinished / 1000));
+                tiempoRestante = millisUntilFinished;
             }
 
             public void onFinish() {
@@ -128,6 +138,20 @@ public class Juego extends AppCompatActivity {
         respuesta2 = findViewById(R.id.texto_respuesta_2);
         respuesta3 = findViewById(R.id.texto_respuesta_3);
         respuesta4 = findViewById(R.id.texto_respuesta_4);
+        cajaRespuesta1 = findViewById(R.id.cajaRespuesta1);
+        cajaRespuesta2 = findViewById(R.id.cajaRespuesta2);
+        cajaRespuesta3 = findViewById(R.id.cajaRespuesta3);
+        cajaRespuesta4 = findViewById(R.id.cajaRespuesta4);
+
+        cajaRespuesta1.setClickable(true);
+        cajaRespuesta2.setClickable(true);
+        cajaRespuesta3.setClickable(true);
+        cajaRespuesta4.setClickable(true);
+
+        cajaRespuesta1.setBackgroundColor(Color.WHITE);
+        cajaRespuesta2.setBackgroundColor(Color.WHITE);
+        cajaRespuesta3.setBackgroundColor(Color.WHITE);
+        cajaRespuesta4.setBackgroundColor(Color.WHITE);
 
         if (indicePregunta < listaPreguntas.size()) {
             Pregunta pregunta = listaPreguntas.get(indicePregunta);
@@ -157,56 +181,85 @@ public class Juego extends AppCompatActivity {
         respuesta2 = findViewById(R.id.texto_respuesta_2);
         respuesta3 = findViewById(R.id.texto_respuesta_3);
         respuesta4 = findViewById(R.id.texto_respuesta_4);
+        cajaRespuesta1 = findViewById(R.id.cajaRespuesta1);
+        cajaRespuesta2 = findViewById(R.id.cajaRespuesta2);
+        cajaRespuesta3 = findViewById(R.id.cajaRespuesta3);
+        cajaRespuesta4 = findViewById(R.id.cajaRespuesta4);
 
-        respuesta1.setOnClickListener(new View.OnClickListener() {
+        cajaRespuesta1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                comprobarRespuesta(respuesta1);
+                comprobarRespuesta(respuesta1, cajaRespuesta1, cajaRespuesta2, cajaRespuesta3, cajaRespuesta4);
             }
         });
 
-        respuesta2.setOnClickListener(new View.OnClickListener() {
+        cajaRespuesta2.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                comprobarRespuesta(respuesta2);
+                comprobarRespuesta(respuesta2, cajaRespuesta2, cajaRespuesta1, cajaRespuesta3, cajaRespuesta4);
             }
         });
 
-        respuesta3.setOnClickListener(new View.OnClickListener() {
+        cajaRespuesta3.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                comprobarRespuesta(respuesta3);
+                comprobarRespuesta(respuesta3, cajaRespuesta3, cajaRespuesta1, cajaRespuesta2, cajaRespuesta4);
             }
         });
 
-        respuesta4.setOnClickListener(new View.OnClickListener() {
+        cajaRespuesta4.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                comprobarRespuesta(respuesta4);
+                comprobarRespuesta(respuesta4, cajaRespuesta4, cajaRespuesta1, cajaRespuesta2, cajaRespuesta3);
             }
         });
     }
 
-    private void comprobarRespuesta(TextView seleccionada) {
+    private void comprobarRespuesta(TextView seleccionada, LinearLayout cajaCorrecta, LinearLayout cajaIncorrecta1, LinearLayout cajaIncorrecta2, LinearLayout cajaIncorrecta3) {
         contador.cancel();
+        textoPuntuacion = findViewById(R.id.texto_puntuacion);
+        textoPuntos = findViewById(R.id.texto_puntos);
         btnSiguiente = findViewById(R.id.btn_siguiente);
         Pregunta pregunta = listaPreguntas.get(indicePregunta);
         String respuestaCorrecta = pregunta.getRespuestaCorrecta();
 
         if (seleccionada.getText().toString().equals(respuestaCorrecta)) {
-            seleccionada.setBackgroundColor(Color.GREEN);
+            cajaCorrecta.setBackgroundColor(Color.GREEN);
+            cajaIncorrecta1.setClickable(false);
+            cajaIncorrecta2.setClickable(false);
+            cajaIncorrecta3.setClickable(false);
+
+            int puntosGanados = (int) (tiempoRestante / 100);
+            puntuacion += puntosGanados;
+
+            if (textoPuntuacion != null) {
+                textoPuntuacion.setText("Puntuación: ");
+                textoPuntos.setText(String.valueOf(puntuacion));
+            }
         }
         else {
-            seleccionada.setBackgroundColor(Color.RED);
+            cajaCorrecta.setBackgroundColor(Color.RED);
 
             if (respuesta1.getText().toString().equals(respuestaCorrecta)) {
-                respuesta1.setBackgroundColor(Color.GREEN);
+                cajaRespuesta1.setBackgroundColor(Color.GREEN);
+                cajaRespuesta2.setClickable(false);
+                cajaRespuesta3.setClickable(false);
+                cajaRespuesta4.setClickable(false);
             } else if (respuesta2.getText().toString().equals(respuestaCorrecta)) {
-                respuesta2.setBackgroundColor(Color.GREEN);
+                cajaRespuesta2.setBackgroundColor(Color.GREEN);
+                cajaRespuesta1.setClickable(false);
+                cajaRespuesta3.setClickable(false);
+                cajaRespuesta4.setClickable(false);
             } else if (respuesta3.getText().toString().equals(respuestaCorrecta)) {
-                respuesta3.setBackgroundColor(Color.GREEN);
+                cajaRespuesta3.setBackgroundColor(Color.GREEN);
+                cajaRespuesta1.setClickable(false);
+                cajaRespuesta2.setClickable(false);
+                cajaRespuesta4.setClickable(false);
             } else if (respuesta4.getText().toString().equals(respuestaCorrecta)) {
-                respuesta4.setBackgroundColor(Color.GREEN);
+                cajaRespuesta4.setBackgroundColor(Color.GREEN);
+                cajaRespuesta1.setClickable(false);
+                cajaRespuesta2.setClickable(false);
+                cajaRespuesta3.setClickable(false);
             }
         }
         btnSiguiente.setVisibility(View.VISIBLE);

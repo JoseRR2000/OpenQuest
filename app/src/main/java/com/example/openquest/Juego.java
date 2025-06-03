@@ -28,6 +28,8 @@ public class Juego extends AppCompatActivity {
     private CountDownTimer contador;
     private TextView tiempo;
     private long tiempoRestante;
+    private int tiempoBase;
+    private int rondas;
     private int puntuacion = 0;
     private TextView textoPuntuacion;
     private TextView textoPuntos;
@@ -57,9 +59,32 @@ public class Juego extends AppCompatActivity {
         });
         indicePregunta = 0;
 
+        dificultadRecibida();
         obtenerPreguntas();
         iniciarTemporizador();
         seleccionRespuestas();
+    }
+
+    private void dificultadRecibida() {
+        String dificultad = getIntent().getStringExtra("dificultad");
+
+        switch (dificultad) {
+            case "fácil":
+                tiempoBase = 30000;
+                rondas = 15;
+                break;
+            case "normal":
+                tiempoBase = 20000;
+                rondas = 10;
+                break;
+            case "difícil":
+                tiempoBase = 10000;
+                rondas = 5;
+                break;
+            default:
+                tiempoBase = 30000;
+                rondas = 15;
+        }
     }
 
     private void iniciarTemporizador() {
@@ -69,7 +94,7 @@ public class Juego extends AppCompatActivity {
 
         tiempo = findViewById(R.id.texto_tiempo);
 
-        contador = new CountDownTimer(30000, 1000) {
+        contador = new CountDownTimer(tiempoBase, 1000) {
             public void onTick(long millisUntilFinished) {
                 tiempo.setText(String.valueOf(millisUntilFinished / 1000));
                 tiempoRestante = millisUntilFinished;
@@ -153,7 +178,12 @@ public class Juego extends AppCompatActivity {
         cajaRespuesta3.setBackgroundColor(Color.WHITE);
         cajaRespuesta4.setBackgroundColor(Color.WHITE);
 
-        if (indicePregunta < listaPreguntas.size()) {
+        if (indicePregunta >= rondas || indicePregunta >= listaPreguntas.size()) {
+            // Finalizar partida o ir a pantalla de resultados
+            Toast.makeText(this, "¡Partida finalizada!", Toast.LENGTH_LONG).show();
+            finish();
+        }
+        else {
             Pregunta pregunta = listaPreguntas.get(indicePregunta);
 
             textoPregunta.setText(pregunta.getPregunta());

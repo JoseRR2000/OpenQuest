@@ -44,6 +44,8 @@ public class PantallaJuego extends AppCompatActivity {
     private int sonidoPulsar;
     private boolean efectosActivados;
     private boolean musicaActivada;
+    private Dificultad dificultad;
+    private String dificultadSeleccionada;
     private final Handler handler = new Handler(Looper.getMainLooper());
     private Runnable actualizarRanking;
     private SoundPool sp;
@@ -214,6 +216,7 @@ public class PantallaJuego extends AppCompatActivity {
             public void onClick(View view) {
                 Intent intent = new Intent(PantallaJuego.this, Juego.class);
                 intent.putExtra("modo", "todas");
+                intent.putExtra("dificultad", dificultadSeleccionada);
                 startActivity(intent);
             }
         });
@@ -231,35 +234,50 @@ public class PantallaJuego extends AppCompatActivity {
         historia.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
+                Intent intent = new Intent(PantallaJuego.this, Juego.class);
+                intent.putExtra("modo", "categoria");
+                intent.putExtra("categoria", "historia");
+                startActivity(intent);
             }
         });
 
         entretenimiento.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
+                Intent intent = new Intent(PantallaJuego.this, Juego.class);
+                intent.putExtra("modo", "categoria");
+                intent.putExtra("categoria", "entretenimiento");
+                startActivity(intent);
             }
         });
 
         deportes.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
+                Intent intent = new Intent(PantallaJuego.this, Juego.class);
+                intent.putExtra("modo", "categoria");
+                intent.putExtra("categoria", "deportes");
+                startActivity(intent);
             }
         });
 
         informatica.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
+                Intent intent = new Intent(PantallaJuego.this, Juego.class);
+                intent.putExtra("modo", "categoria");
+                intent.putExtra("categoria", "informatica");
+                startActivity(intent);
             }
         });
 
         medicina.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
+                Intent intent = new Intent(PantallaJuego.this, Juego.class);
+                intent.putExtra("modo", "categoria");
+                intent.putExtra("categoria", "medicina");
+                startActivity(intent);
             }
         });
     }
@@ -308,6 +326,7 @@ public class PantallaJuego extends AppCompatActivity {
         scTiempo = findViewById(R.id.switch_limite_tiempo);
         spIdioma = findViewById(R.id.spinner_idioma);
         spDificultad = findViewById(R.id.spinner_dificultad);
+
         String[] idiomas = {getString(R.string.english), getString(R.string.spanish)};
         String[] dificultades = {"Fácil", "Normal", "Difícil"};
 
@@ -363,6 +382,7 @@ public class PantallaJuego extends AppCompatActivity {
 
         String idiomaActual = Locale.getDefault().getLanguage();
         spIdioma.setSelection(idiomaActual.equals("es") ? 1 : 0);
+        spDificultad.setSelection(0);
 
         final boolean[] primeraVez = {true};
 
@@ -392,6 +412,35 @@ public class PantallaJuego extends AppCompatActivity {
 
             }
         });
+
+        spDificultad.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+                dificultadSeleccionada = adapterView.getItemAtPosition(i).toString();
+                dificultad = obtenerRondasPorDificultad(dificultadSeleccionada);
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> adapterView) {
+
+            }
+        });
+    }
+
+    private Dificultad obtenerRondasPorDificultad(String dificultad) {
+        switch (dificultad) {
+            case "Fácil":
+                return new Dificultad(15, 30000);
+
+            case "Normal":
+                return new Dificultad(10, 20000);
+
+            case "Difícil":
+                return new Dificultad(5, 10000);
+
+            default:
+                return new Dificultad(15, 30000);
+        }
     }
 
     private void editor() {

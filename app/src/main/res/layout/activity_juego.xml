@@ -1,0 +1,231 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".Juego"
+    >
+
+    <LinearLayout
+        app:layout_constraintTop_toTopOf="parent"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        >
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="0.5"
+            android:orientation="horizontal"
+            android:background="@android:color/holo_blue_light"
+            >
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:layout_gravity="center"
+                android:gravity="center"
+                >
+
+                <TextView
+                    android:id="@+id/texto_puntuacion"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="puntuacion: "
+                    android:textColor="@color/black"
+                    android:layout_gravity="center"
+                    android:gravity="center"
+                    >
+                </TextView>
+
+                <TextView
+                    android:id="@+id/texto_puntos"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="0"
+                    android:textColor="@color/black"
+                    android:textStyle="bold"
+                    >
+                </TextView>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="0.5"
+                android:orientation="horizontal"
+                android:layout_gravity="center"
+                >
+                <ImageView
+                    android:layout_width="50dp"
+                    android:layout_height="20dp"
+                    android:src="@drawable/reloj"
+                    android:layout_gravity="center"
+                    >
+                </ImageView>
+
+                <TextView
+                    android:id="@+id/texto_tiempo"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_gravity="center"
+                    android:text="30"
+                    android:textColor="@color/black"
+                    android:textStyle="bold">
+                </TextView>
+            </LinearLayout>
+        </LinearLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="5dp"
+            android:background="@color/black"
+            >
+        </View>
+
+        <LinearLayout
+            android:id="@+id/cajaPregunta"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:clickable="true"
+            android:gravity="center"
+            android:background="@android:color/holo_green_light"
+            >
+            <TextView
+                android:id="@+id/texto_pregunta"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingStart="5dp"
+                android:paddingEnd="5dp"
+                android:text="pregunta"
+                android:textColor="@color/white"
+                android:textStyle="bold"
+                >
+            </TextView>
+        </LinearLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="5dp"
+            android:background="@color/black"
+            >
+        </View>
+
+        <LinearLayout
+            android:id="@+id/cajaRespuesta1"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:clickable="true"
+            android:gravity="center"
+            android:background="@color/white"
+            >
+            <TextView
+                android:id="@+id/texto_respuesta_1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="respuesta 1"
+                android:textColor="@color/black"
+                android:textStyle="bold"
+                >
+            </TextView>
+        </LinearLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="5dp"
+            android:background="@color/black"
+            >
+        </View>
+
+        <LinearLayout
+            android:id="@+id/cajaRespuesta2"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:clickable="true"
+            android:gravity="center"
+            android:background="@color/white"
+            >
+            <TextView
+                android:id="@+id/texto_respuesta_2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="respuesta 2"
+                android:textColor="@color/black"
+                android:textStyle="bold"
+                >
+            </TextView>
+        </LinearLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="5dp"
+            android:background="@color/black"
+            >
+        </View>
+
+        <LinearLayout
+            android:id="@+id/cajaRespuesta3"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:clickable="true"
+            android:gravity="center"
+            android:background="@color/white"
+            >
+            <TextView
+                android:id="@+id/texto_respuesta_3"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="respuesta 3"
+                android:textColor="@color/black"
+                android:textStyle="bold"
+                >
+            </TextView>
+        </LinearLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="5dp"
+            android:background="@color/black"
+            >
+        </View>
+
+        <LinearLayout
+            android:id="@+id/cajaRespuesta4"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:clickable="true"
+            android:gravity="center"
+            android:background="@color/white"
+            >
+            <TextView
+                android:id="@+id/texto_respuesta_4"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="respuesta 4"
+                android:textColor="@color/black"
+                android:textStyle="bold"
+                >
+            </TextView>
+        </LinearLayout>
+
+        <Button
+            android:id="@+id/btn_siguiente"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Siguiente"
+            android:layout_gravity="center"
+            android:visibility="gone"
+            >
+        </Button>
+    </LinearLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>

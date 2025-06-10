@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    /*Menu Principal*/
+    <string name="app_name">OPENQUEST</string>
+    <string name="play">JUGAR</string>
+    <string name="options">OPCIONES</string>
+    <string name="score">RANKING</string>
+    <string name="editor">EDITOR</string>
+    <string name="logros">LOGROS</string>
+
+    /*Jugar*/
+    <string name="categories">CATEGORÍAS</string>
+    <string name="all_categories">TODAS LAS CATEGORÍAS</string>
+    <string name="geography">GEOGRAFÍA</string>
+    <string name="history">HISTORIA</string>
+    <string name="entertaiment">ENTRETENIMIENTO</string>
+    <string name="sports">DEPORTES</string>
+    <string name="computing">INFORMÁTICA</string>
+    <string name="medicine">MEDICINA</string>
+
+    /*Ranking*/
+    <string name="empty_matches">NO HAY PARTIDAS ALMACENADAS</string>
+
+    /*Opciones*/
+    <string name="sound">SONIDO</string>
+    <string name="sound_effects">Efectos de sonido</string>
+    <string name="game_music">Música del juego</string>
+    <string name="language">IDIOMA</string>
+    <string name="game_language">Idioma del juego</string>
+    <string name="account">CUENTA</string>
+    <string name="change_credentials">Cambiar credenciales</string>
+    <string name="configuration">CONFIGURACIÓN</string>
+    <string name="difficulty">Dificultad</string>
+    <string name="remove_round_limit">Eliminar límite de rondas</string>
+    <string name="remove_time_limit">Eliminar límite de tiempo</string>
+    <string name="english">Ingles</string>
+    <string name="spanish">Español</string>
+
+    /*Inicio Sesion*/
+    <string name="login">INICIAR SESIÓN</string>
+    <string name="register">REGISTRARSE</string>
+    <string name="guest">ENTRAR COMO INVITADO</string>
+    <string name="exit">SALIR</string>
+
+</resources>

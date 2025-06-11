@@ -4,6 +4,10 @@ import com.google.gson.annotations.SerializedName; // Importa si los nombres JSO
 
 public class ApiResponse {
 
+    @SerializedName("mensaje")
+    private String mensaje;
+    @SerializedName("error")
+    private String error;
     @SerializedName("success") // El nombre en el JSON de PHP
     private boolean success;
 
@@ -15,6 +19,7 @@ public class ApiResponse {
 
     // Constructor sin argumentos (necesario para Gson)
     public ApiResponse() {
+
     }
 
     // Getters para acceder a los datos
@@ -30,7 +35,13 @@ public class ApiResponse {
         return id;
     }
 
-    // Opcional: Setters si alguna vez necesitas modificar estos valores después de recibirlos
+    public String getMensaje() {
+        return mensaje;
+    }
+
+    public String getError() {
+        return error;
+    }
     public void setSuccess(boolean success) {
         this.success = success;
     }
@@ -42,4 +53,5 @@ public class ApiResponse {
     public void setId(Integer id) {
         this.id = id;
     }
+
 }

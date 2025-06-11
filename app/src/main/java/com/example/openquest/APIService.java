@@ -24,7 +24,10 @@ public interface APIService {
     @GET("obtener_logros.php")
     Call<List<Logro>> obtenerLogros();
 
-    @POST("almacen_partidas.php") // El nombre de tu script PHP para guardar partidas
+    @POST("crear_pregunta.php")
+    Call<ApiResponse> crearPregunta(@Body Pregunta pregunta);
+
+    @POST("almacen_partidas.php")
     Call<ApiResponse> guardarPartida(@Body Partida partida);
 
     @FormUrlEncoded

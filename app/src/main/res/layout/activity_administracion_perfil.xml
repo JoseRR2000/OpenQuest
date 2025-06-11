@@ -5,14 +5,13 @@
     android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".LoginActivity">
+    tools:context=".ActivityAdministracionPerfil">
 
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="@color/white"
         >
-
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -20,13 +19,14 @@
             android:gravity="center"
             android:orientation="vertical"
             >
+
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="INICIAR SESIÓN"
+                android:text="GESTIÓN DEL PERFIL"
                 android:textColor="@color/black"
-                android:textSize="30sp"
                 android:textStyle="bold"
+                android:textSize="30sp"
                 >
             </TextView>
 
@@ -34,31 +34,13 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="20dp"
-                android:text="INTRODUCE TU EMAIL"
+                android:text="CAMBIAR NOMBRE"
                 android:textColor="@color/black"
                 >
             </TextView>
 
             <EditText
-                android:id="@+id/txtLoginMail"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="20dp"
-                android:textColor="@color/black"
-                >
-            </EditText>
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="20dp"
-                android:text="INTRODUCE TU CONTRASEÑA"
-                android:textColor="@color/black"
-                >
-            </TextView>
-
-            <EditText
-                android:id="@+id/txtPasswordLogin"
+                android:id="@+id/txtNombreNuevo"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="20dp"
@@ -67,16 +49,16 @@
             </EditText>
 
             <Button
-                android:id="@+id/btnEnviar"
+                android:id="@+id/btn_eliminar_perfil"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="20dp"
-                android:text="ENVIAR"
+                android:text="ELIMINAR PERFIL"
                 >
             </Button>
 
             <Space
-                android:layout_width="match_parent"
+                android:layout_width="wrap_content"
                 android:layout_height="40dp">
             </Space>
         </LinearLayout>

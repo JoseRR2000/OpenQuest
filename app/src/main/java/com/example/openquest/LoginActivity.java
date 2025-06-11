@@ -28,6 +28,7 @@ public class LoginActivity extends AppCompatActivity {
     private static final String PREFS_NAME = "MyPrefs";
     private static final String KEY_LOGGED_IN = "isLoggedIn";
     private static final String KEY_USER_ID = "userId";
+    private static final String KEY_USERNAME = "username";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -76,10 +77,11 @@ public class LoginActivity extends AppCompatActivity {
                                 SharedPreferences.Editor editor = getSharedPreferences(PREFS_NAME, MODE_PRIVATE).edit();
                                 editor.putBoolean(KEY_LOGGED_IN, true);
                                 editor.putInt(KEY_USER_ID, loginResponse.getUserId()); // Asume que LoginResponse tiene un getUserId()
+                                editor.putString(KEY_USERNAME, loginResponse.getUsername());
                                 editor.apply(); // Guarda los cambios asincrónicamente
 
                                 // Navegar a la siguiente pantalla (ej. PantallaJuego)
-                                entrarPantallaJuego(loginResponse.getUserId());
+                                entrarPantallaJuego(loginResponse.getUserId(), loginResponse.getUsername());
 
                             } else {
                                 // Login fallido (credenciales incorrectas, etc.)
@@ -100,9 +102,10 @@ public class LoginActivity extends AppCompatActivity {
         });
     }
 
-    private void entrarPantallaJuego(int userId) {
+    private void entrarPantallaJuego(int userId, String username) {
         Intent intent = new Intent(LoginActivity.this, PantallaJuego.class);
         intent.putExtra("USER_ID", userId);
+        intent.putExtra("USERNAME", username);
         startActivity(intent);
         finish();
     }

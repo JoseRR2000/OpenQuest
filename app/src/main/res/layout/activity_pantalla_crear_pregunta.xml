@@ -34,6 +34,7 @@
             </TextView>
 
             <Spinner
+                android:id="@+id/spinner_idioma_crear_pregunta"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="20dp"
@@ -54,6 +55,7 @@
             </TextView>
 
             <RadioGroup
+                android:id="@+id/rg_categoria_crear_pregunta"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
@@ -61,6 +63,7 @@
                 android:padding="10dp"
                 >
                 <RadioButton
+                    android:id="@+id/rb_geografia_crear_pregunta"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/geography"
@@ -72,6 +75,7 @@
                 </RadioButton>
 
                 <RadioButton
+                    android:id="@+id/rb_historia_crear_pregunta"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/history"
@@ -84,6 +88,7 @@
 
 
                 <RadioButton
+                    android:id="@+id/rb_entretenimiento_crear_pregunta"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/entertaiment"
@@ -95,6 +100,7 @@
                 </RadioButton>
 
                 <RadioButton
+                    android:id="@+id/rb_deportes_crear_pregunta"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/sports"
@@ -106,6 +112,7 @@
                 </RadioButton>
 
                 <RadioButton
+                    android:id="@+id/rb_informatica_crear_pregunta"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/computing"
@@ -117,6 +124,7 @@
                 </RadioButton>
 
                 <RadioButton
+                    android:id="@+id/rb_medicina_crear_pregunta"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/medicine"
@@ -140,7 +148,7 @@
             </TextView>
 
             <EditText
-                android:id="@+id/preguntaUsuario"
+                android:id="@+id/pregunta_usuario"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:textSize="12sp"
@@ -160,7 +168,7 @@
             </TextView>
 
             <EditText
-                android:id="@+id/respuesta1Usuario"
+                android:id="@+id/respuesta1_suario"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:textSize="12sp"
@@ -180,7 +188,7 @@
             </TextView>
 
             <EditText
-                android:id="@+id/respuesta2Usuario"
+                android:id="@+id/respuesta2_usuario"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:textSize="12sp"
@@ -200,7 +208,7 @@
             </TextView>
 
             <EditText
-                android:id="@+id/respuesta3Usuario"
+                android:id="@+id/respuesta3_usuario"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:textSize="12sp"
@@ -220,7 +228,7 @@
             </TextView>
 
             <EditText
-                android:id="@+id/respuesta4Usuario"
+                android:id="@+id/respuesta4_usuario"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:textSize="12sp"
@@ -240,7 +248,7 @@
             </TextView>
 
             <EditText
-                android:id="@+id/respuestaCorrectaUsuario"
+                android:id="@+id/respuesta_correcta_usuario"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:textSize="12sp"
@@ -248,8 +256,8 @@
                 >
             </EditText>
 
-
             <Button
+                android:id="@+id/boton_enviar_pregunta_usuario"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="30dp"

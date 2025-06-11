@@ -42,4 +42,10 @@
     <string name="exit">EXIT</string>
 
 
+    /*Editor*/
+    <string-array name="idiomas_pregunta">
+         <item>es</item>
+         <item>en</item>
+    </string-array>
+
 </resources>

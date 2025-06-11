@@ -20,6 +20,9 @@ public class LoginResponse {
     @SerializedName("user_id")
     private int userId;
 
+    @SerializedName("username")
+    private String username;
+
     // Constructor (Retrofit/Gson puede no necesitarlo explícitamente para deserializar,
     // pero es buena práctica para la creación manual de objetos si fuera necesario)
     public LoginResponse(boolean success, String message, int userId) {
@@ -42,6 +45,10 @@ public class LoginResponse {
         return userId;
     }
 
+    public String getUsername() {
+        return username;
+    }
+
     // --- Setters (Opcionales si solo vas a deserializar, pero útiles si necesitas modificar el objeto) ---
 
     public void setSuccess(boolean success) {
@@ -54,5 +61,9 @@ public class LoginResponse {
 
     public void setUserId(int userId) {
         this.userId = userId;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
     }
 }

@@ -1,5 +1,6 @@
 package com.example.openquest;
 
+import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.os.CountDownTimer;
@@ -46,6 +47,9 @@ public class Juego extends AppCompatActivity {
     private LinearLayout cajaRespuesta4;
     private Button btnSiguiente;
 
+    private static final String PREFS_NAME = "MyPrefs";
+    private static final String KEY_LOGGED_IN = "isLoggedIn";
+    private static final String KEY_USER_ID = "userId";
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -104,6 +108,8 @@ public class Juego extends AppCompatActivity {
             public void onFinish() {
                 tiempo.setText("0");
                 Toast.makeText(Juego.this, "¡Tiempo agotado!", Toast.LENGTH_SHORT).show();
+                abortarJuego();
+                finish();
             }
         }.start();
     }
@@ -135,6 +141,8 @@ public class Juego extends AppCompatActivity {
             @Override
             public void onFailure(Call<List<Pregunta>> call, Throwable t) {
                 Toast.makeText(Juego.this, "Error al obtener preguntas", Toast.LENGTH_SHORT).show();
+                abortarJuego();
+                finish();
             }
         });
     }
@@ -154,6 +162,8 @@ public class Juego extends AppCompatActivity {
             @Override
             public void onFailure(Call<List<Pregunta>> call, Throwable t) {
                 Toast.makeText(Juego.this, "Error al obtener preguntas", Toast.LENGTH_SHORT).show();
+                abortarJuego();
+                finish();
             }
         });
     }
@@ -306,37 +316,53 @@ public class Juego extends AppCompatActivity {
     }
 
     private void finalizarJuego() {
-        Partida nuevaPartida = new Partida();
-        Retrofit retro = new Retrofit();
+        SharedPreferences prefs = getSharedPreferences(PREFS_NAME, MODE_PRIVATE);
+        boolean estaLogeado = prefs.getBoolean(KEY_LOGGED_IN, false);
 
-        nuevaPartida.setPuntuacion(puntuacion);
-        nuevaPartida.setDificultad(dificultad);
-        nuevaPartida.setRondasJugadas(rondas);
+        if (estaLogeado) {
+            int userId = prefs.getInt(KEY_USER_ID, -1);
 
-        retro.getApi().guardarPartida(nuevaPartida).enqueue(new Callback<ApiResponse>() { // ¡Aquí ApiResponse!
-            @Override
-            public void onResponse(Call<ApiResponse> call, Response<ApiResponse> response) {
-                if (response.isSuccessful() && response.body() != null) {
-                    // Accedes a los campos de la respuesta usando los getters de ApiResponse
-                    if (response.body().isSuccess()) {
-                        Toast.makeText(Juego.this, "Partida guardada con éxito! ID: " + response.body().getId(), Toast.LENGTH_SHORT).show();
-                        // Puedes redirigir o actualizar la UI aquí
-                    } else {
-                        Toast.makeText(Juego.this, "Error al guardar partida: " + response.body().getMessage(), Toast.LENGTH_LONG).show();
+            if (userId != -1) {
+                Partida nuevaPartida = new Partida();
+                Retrofit retro = new Retrofit();
+
+                nuevaPartida.setPuntuacion(puntuacion);
+                nuevaPartida.setDificultad(dificultad);
+                nuevaPartida.setRondasJugadas(rondas);
+
+                retro.getApi().guardarPartida(nuevaPartida).enqueue(new Callback<ApiResponse>() {
+                    @Override
+                    public void onResponse(Call<ApiResponse> call, Response<ApiResponse> response) {
+                        if (response.isSuccessful() && response.body() != null) {
+                            // Accedes a los campos de la respuesta usando los getters de ApiResponse
+                            if (response.body().isSuccess()) {
+                                Toast.makeText(Juego.this, "Partida guardada con éxito! ID: " + response.body().getId(), Toast.LENGTH_SHORT).show();
+                                // Puedes redirigir o actualizar la UI aquí
+                            } else {
+                                Toast.makeText(Juego.this, "Error al guardar partida: " + response.body().getMessage(), Toast.LENGTH_LONG).show();
+                            }
+                        } else {
+                            // Manejar errores de HTTP (códigos 4xx, 5xx) o cuerpo de respuesta nulo
+                            Toast.makeText(Juego.this, "Error en la respuesta del servidor: " + response.code(), Toast.LENGTH_LONG).show();
+                        }
                     }
-                } else {
-                    // Manejar errores de HTTP (códigos 4xx, 5xx) o cuerpo de respuesta nulo
-                    Toast.makeText(Juego.this, "Error en la respuesta del servidor: " + response.code(), Toast.LENGTH_LONG).show();
-                }
-            }
 
-            @Override
-            public void onFailure(Call<ApiResponse> call, Throwable t) {
-                // Manejar errores de red (no se pudo conectar al servidor)
-                Toast.makeText(Juego.this, "Error de red al guardar partida: " + t.getMessage(), Toast.LENGTH_LONG).show();
+                    @Override
+                    public void onFailure(Call<ApiResponse> call, Throwable t) {
+                        // Manejar errores de red (no se pudo conectar al servidor)
+                        Toast.makeText(Juego.this, "Error de red al guardar partida: " + t.getMessage(), Toast.LENGTH_LONG).show();
+                    }
+                });
             }
-        });
+            else {
+                Toast.makeText(Juego.this, "Juego finalizado. Inicia sesión o regístrate para guardar tu partida.", Toast.LENGTH_LONG).show();
+            }
+            finish();
+        }
+    }
 
+    private void abortarJuego() {
+        Partida nuevaPartida = new Partida();
         nuevaPartida.setPuntuacion(0);
     }
 }

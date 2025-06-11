@@ -66,6 +66,13 @@ public class PantallaJuego extends AppCompatActivity {
 
     private List<Partida> listaPartidas = new ArrayList<>();
 
+    private LinearLayout layoutPerfil;
+
+    private ScrollView pestanaRanking;
+
+    private static final String PREFS_NAME = "MyPrefs";
+    private static final String KEY_LOGGED_IN = "isLoggedIn";
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -76,18 +83,32 @@ public class PantallaJuego extends AppCompatActivity {
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
             return insets;
         });
+        comprobarLogin();
         cargarAdaptadores();
         cargarAudio();
         cambiarPestanas();
-        obtenerRanking();
         actualizarRanking();
         jugar();
         opciones();
         editor();
         logros();
         cargarAjustes();
+        perfil();
     }
 
+    private void comprobarLogin() {
+        layoutPerfil = findViewById(R.id.layoutCuentaOpciones);
+
+        SharedPreferences prefs = getSharedPreferences(PREFS_NAME, MODE_PRIVATE);
+        boolean isLoggedIn = prefs.getBoolean(KEY_LOGGED_IN, false);
+
+        if (isLoggedIn) {
+            layoutPerfil.setVisibility(View.VISIBLE);
+        } else {
+            layoutPerfil.setVisibility(View.GONE);
+            layoutPerfil.setClickable(false);
+        }
+    }
     private void cargarAdaptadores() {
         recyclerLogros = findViewById(R.id.recyclerLogros);
         recyclerPartidas = findViewById(R.id.recyclerHistorial);
@@ -147,7 +168,16 @@ public class PantallaJuego extends AppCompatActivity {
         v5.setVisibility(View.INVISIBLE);
 
         if (esRanking) {
-            handler.post(actualizarRanking);
+            SharedPreferences prefs = getSharedPreferences(PREFS_NAME, MODE_PRIVATE);
+            boolean estaLogueado = prefs.getBoolean(KEY_LOGGED_IN, false);
+
+            if (estaLogueado) {
+                handler.post(actualizarRanking);
+            }
+            else {
+                listaPartidas.clear();
+                adapterPartidas.notifyDataSetChanged();
+            }
         } else {
             handler.removeCallbacks(actualizarRanking);
         }
@@ -167,7 +197,7 @@ public class PantallaJuego extends AppCompatActivity {
         LinearLayout botonEditor = findViewById(R.id.botonEditor);
         LinearLayout botonLogros = findViewById(R.id.botonLogros);
         ScrollView pestanaJugar = findViewById(R.id.scroll1);
-        ScrollView pestanaRanking = findViewById(R.id.scroll2);
+        pestanaRanking = findViewById(R.id.scroll2);
         ScrollView pestanaOpciones = findViewById(R.id.scroll3);
         ScrollView pestanaEditor = findViewById(R.id.scroll4);
         ScrollView pestanaLogros = findViewById(R.id.scroll5);
@@ -188,7 +218,15 @@ public class PantallaJuego extends AppCompatActivity {
         botonRanking.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                controlarNavegacion(pestanaRanking, pestanaJugar, pestanaOpciones, pestanaEditor, pestanaLogros, lineaRanking, lineaJugar, lineaOpciones, lineaEditor, lineaLogros, true);
+                SharedPreferences prefs = getSharedPreferences(PREFS_NAME, MODE_PRIVATE);
+                boolean estaLogueado = prefs.getBoolean(KEY_LOGGED_IN, false);
+
+                if (estaLogueado) {
+                    controlarNavegacion(pestanaRanking, pestanaJugar, pestanaOpciones, pestanaEditor, pestanaLogros, lineaRanking, lineaJugar, lineaOpciones, lineaEditor, lineaLogros, true);
+                }
+                else {
+                    Toast.makeText(PantallaJuego.this, "Debes iniciar sesión para ver el ranking global.", Toast.LENGTH_LONG).show();
+                }
             }
         });
 
@@ -328,15 +366,12 @@ public class PantallaJuego extends AppCompatActivity {
                 } else {
                     // Manejo de errores de la API (códigos 4xx, 5xx)
                     Toast.makeText(PantallaJuego.this, "Error al cargar ranking: HTTP " + response.code(), Toast.LENGTH_LONG).show();
-
                 }
             }
 
             @Override
             public void onFailure(Call<List<Partida>> call, Throwable t) {
                 Toast.makeText(PantallaJuego.this, "Error de red al cargar ranking: " + t.getMessage(), Toast.LENGTH_LONG).show();
-                Log.e("RankingAPI", "PILA DE LLAMADAS COMPLETA PARA EL FALLO:", t);
-                t.printStackTrace();
             }
         });
     }
@@ -497,6 +532,18 @@ public class PantallaJuego extends AppCompatActivity {
             @Override
             public void onFailure(@NonNull Call<List<Logro>> call, @NonNull Throwable t) {
                 Toast.makeText(PantallaJuego.this, "Error: " + t.getMessage(), Toast.LENGTH_LONG).show();
+            }
+        });
+    }
+
+    private void perfil() {
+        LinearLayout perfil = findViewById(R.id.layoutCuentaOpciones);
+
+        perfil.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(PantallaJuego.this, ActivityAdministracionPerfil.class);
+                startActivity(intent);
             }
         });
     }

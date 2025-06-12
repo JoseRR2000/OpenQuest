@@ -48,11 +48,38 @@
                 >
             </EditText>
 
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:text="CAMBIAR CONTRASEÑA"
+                android:textColor="@color/black"
+                >
+            </TextView>
+
+            <EditText
+                android:id="@+id/txtPasswordNuevo"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:textColor="@color/black"
+                >
+            </EditText>
+
+            <Button
+                android:id="@+id/btn_editar_perfil"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:text="CAMBIAR CREDENCIALES"
+                >
+            </Button>
+
             <Button
                 android:id="@+id/btn_eliminar_perfil"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="20dp"
+                android:layout_marginTop="60dp"
                 android:text="ELIMINAR PERFIL"
                 >
             </Button>

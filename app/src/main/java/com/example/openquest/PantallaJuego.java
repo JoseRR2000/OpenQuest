@@ -10,7 +10,6 @@ import android.media.SoundPool;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
-import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -100,6 +99,7 @@ public class PantallaJuego extends AppCompatActivity {
         layoutPerfil = findViewById(R.id.layoutCuentaOpciones);
 
         SharedPreferences prefs = getSharedPreferences(PREFS_NAME, MODE_PRIVATE);
+
         boolean isLoggedIn = prefs.getBoolean(KEY_LOGGED_IN, false);
 
         if (isLoggedIn) {
@@ -240,14 +240,30 @@ public class PantallaJuego extends AppCompatActivity {
         botonEditor.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                controlarNavegacion(pestanaEditor, pestanaJugar, pestanaRanking, pestanaOpciones, pestanaLogros, lineaEditor, lineaJugar, lineaRanking, lineaOpciones, lineaLogros, false);
+                SharedPreferences prefs = getSharedPreferences(PREFS_NAME, MODE_PRIVATE);
+                boolean estaLogueado = prefs.getBoolean(KEY_LOGGED_IN, false);
+
+                if (estaLogueado) {
+                    controlarNavegacion(pestanaEditor, pestanaJugar, pestanaRanking, pestanaOpciones, pestanaLogros, lineaEditor, lineaJugar, lineaRanking, lineaOpciones, lineaLogros, false);
+                }
+                else {
+                    Toast.makeText(PantallaJuego.this, "Debes iniciar sesión para poder editar las preguntas.", Toast.LENGTH_LONG).show();
+                }
             }
         });
 
         botonLogros.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                controlarNavegacion(pestanaLogros, pestanaJugar, pestanaRanking, pestanaOpciones, pestanaEditor, lineaLogros, lineaJugar, lineaRanking, lineaOpciones, lineaEditor, false);
+                SharedPreferences prefs = getSharedPreferences(PREFS_NAME, MODE_PRIVATE);
+                boolean estaLogueado = prefs.getBoolean(KEY_LOGGED_IN, false);
+
+                if (estaLogueado) {
+                    controlarNavegacion(pestanaLogros, pestanaJugar, pestanaRanking, pestanaOpciones, pestanaEditor, lineaLogros, lineaJugar, lineaRanking, lineaOpciones, lineaEditor, false);
+                }
+                else {
+                    Toast.makeText(PantallaJuego.this, "Debes iniciar sesión para poder conseguir y ver logros.", Toast.LENGTH_LONG).show();
+                }
             }
         });
     }
@@ -348,23 +364,15 @@ public class PantallaJuego extends AppCompatActivity {
                     List<Partida> partidasRecibidas = response.body();
                     if (partidasRecibidas.isEmpty()) {
                         // Muestra un mensaje si no hay partidas
-                        // Puedes añadir un TextView en tu layout_ranking para esto, por ejemplo:
-                        // TextView textoNoPartidas = findViewById(R.id.textoNoPartidas);
-                        // textoNoPartidas.setVisibility(View.VISIBLE);
-                        // recyclerViewRanking.setVisibility(View.GONE);
                         Toast.makeText(PantallaJuego.this, "No hay partidas registradas.", Toast.LENGTH_SHORT).show();
-                        listaPartidas.clear(); // Limpia la lista si no hay datos
+                        listaPartidas.clear();
                     } else {
                         // Actualiza la lista del adaptador y notifica los cambios
-                        listaPartidas.clear(); // Limpia la lista anterior
-                        listaPartidas.addAll(partidasRecibidas); // Añade las nuevas partidas
-                        adapterPartidas.notifyDataSetChanged(); // ¡Crucial para que el RecyclerView se redibuje!
-                        // Si tenías un mensaje de "no partidas", asegúrate de ocultarlo aquí
-                        // textoNoPartidas.setVisibility(View.GONE);
-                        // recyclerViewRanking.setVisibility(View.VISIBLE);
+                        listaPartidas.clear();
+                        listaPartidas.addAll(partidasRecibidas);
+                        adapterPartidas.notifyDataSetChanged();
                     }
                 } else {
-                    // Manejo de errores de la API (códigos 4xx, 5xx)
                     Toast.makeText(PantallaJuego.this, "Error al cargar ranking: HTTP " + response.code(), Toast.LENGTH_LONG).show();
                 }
             }
@@ -513,6 +521,15 @@ public class PantallaJuego extends AppCompatActivity {
                 startActivity(intent);
             }
         });
+
+        botonEditarPreguntas.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(PantallaJuego.this, ActivityEditarPregunta.class);
+                startActivity(intent);
+            }
+        });
+
     }
 
     private void logros() {

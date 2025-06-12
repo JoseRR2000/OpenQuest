@@ -2,6 +2,7 @@ package com.example.openquest;
 
 
 import java.util.List;
+import java.util.Map;
 
 import retrofit2.Call;
 import retrofit2.http.Body;
@@ -26,7 +27,8 @@ public interface APIService {
 
     @POST("crear_pregunta.php")
     Call<ApiResponse> crearPregunta(@Body Pregunta pregunta);
-
+    @POST("editar_pregunta.php")
+    Call<ApiResponse> editarPregunta(@Body Pregunta pregunta);
     @POST("almacen_partidas.php")
     Call<ApiResponse> guardarPartida(@Body Partida partida);
 
@@ -43,4 +45,9 @@ public interface APIService {
             @Field("password") String password
     );
 
+    @POST("editar_usuario.php")
+    Call<ApiResponse> editarUsuario(@Body java.util.Map<String, String> userData);
+
+    @POST("eliminar_usuario.php")
+    Call<ApiResponse> eliminarUsuario(@Body Map<String, String> data);
 }

@@ -46,9 +46,9 @@ public class LogrosAdapter extends RecyclerView.Adapter<LogrosAdapter.ViewHolder
 
         if (logro.isConseguido()) {
             holder.itemView.setAlpha(1f);
-            holder.icono.setColorFilter(Color.parseColor("#FFD700")); // dorado
+            holder.icono.setColorFilter(Color.parseColor("#FFD700"));
         } else {
-            holder.itemView.setAlpha(0.5f); // se ve más apagado
+            holder.itemView.setAlpha(0.5f);
             holder.icono.setColorFilter(Color.GRAY);
         }
     }

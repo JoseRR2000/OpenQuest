@@ -19,7 +19,6 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ScrollView;
 import android.widget.Spinner;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
@@ -44,6 +43,8 @@ public class PantallaJuego extends AppCompatActivity {
     private int sonidoPulsar;
     private boolean efectosActivados;
     private boolean musicaActivada;
+    private boolean tiempoLimiteDesactivado;
+    private boolean rondasLimiteDesactivadas;
     private Dificultad dificultad;
     private String dificultadSeleccionada;
     private final Handler handler = new Handler(Looper.getMainLooper());
@@ -87,11 +88,11 @@ public class PantallaJuego extends AppCompatActivity {
         cargarAudio();
         cambiarPestanas();
         actualizarRanking();
-        jugar();
         opciones();
+        cargarAjustes();
+        jugar();
         editor();
         logros();
-        cargarAjustes();
         perfil();
     }
 
@@ -283,6 +284,8 @@ public class PantallaJuego extends AppCompatActivity {
                 Intent intent = new Intent(PantallaJuego.this, Juego.class);
                 intent.putExtra("modo", "todas");
                 intent.putExtra("dificultad", dificultadSeleccionada);
+                intent.putExtra("tiempoLimiteDesactivado", tiempoLimiteDesactivado);
+                intent.putExtra("rondasLimiteDesactivadas", rondasLimiteDesactivadas);
                 startActivity(intent);
             }
         });
@@ -294,6 +297,8 @@ public class PantallaJuego extends AppCompatActivity {
                 intent.putExtra("modo", "categoria");
                 intent.putExtra("categoria", 1);
                 intent.putExtra("dificultad", dificultadSeleccionada);
+                intent.putExtra("tiempoLimiteDesactivado", tiempoLimiteDesactivado);
+                intent.putExtra("rondasLimiteDesactivadas", rondasLimiteDesactivadas);
                 startActivity(intent);
             }
         });
@@ -305,6 +310,8 @@ public class PantallaJuego extends AppCompatActivity {
                 intent.putExtra("modo", "categoria");
                 intent.putExtra("categoria", 2);
                 intent.putExtra("dificultad", dificultadSeleccionada);
+                intent.putExtra("tiempoLimiteDesactivado", tiempoLimiteDesactivado);
+                intent.putExtra("rondasLimiteDesactivadas", rondasLimiteDesactivadas);
                 startActivity(intent);
             }
         });
@@ -316,6 +323,8 @@ public class PantallaJuego extends AppCompatActivity {
                 intent.putExtra("modo", "categoria");
                 intent.putExtra("categoria", 3);
                 intent.putExtra("dificultad", dificultadSeleccionada);
+                intent.putExtra("tiempoLimiteDesactivado", tiempoLimiteDesactivado);
+                intent.putExtra("rondasLimiteDesactivadas", rondasLimiteDesactivadas);
                 startActivity(intent);
             }
         });
@@ -327,6 +336,8 @@ public class PantallaJuego extends AppCompatActivity {
                 intent.putExtra("modo", "categoria");
                 intent.putExtra("categoria", 4);
                 intent.putExtra("dificultad", dificultadSeleccionada);
+                intent.putExtra("tiempoLimiteDesactivado", tiempoLimiteDesactivado);
+                intent.putExtra("rondasLimiteDesactivadas", rondasLimiteDesactivadas);
                 startActivity(intent);
             }
         });
@@ -338,6 +349,8 @@ public class PantallaJuego extends AppCompatActivity {
                 intent.putExtra("modo", "categoria");
                 intent.putExtra("categoria", 5);
                 intent.putExtra("dificultad", dificultadSeleccionada);
+                intent.putExtra("tiempoLimiteDesactivado", tiempoLimiteDesactivado);
+                intent.putExtra("rondasLimiteDesactivadas", rondasLimiteDesactivadas);
                 startActivity(intent);
             }
         });
@@ -349,6 +362,8 @@ public class PantallaJuego extends AppCompatActivity {
                 intent.putExtra("modo", "categoria");
                 intent.putExtra("categoria", 6);
                 intent.putExtra("dificultad", dificultadSeleccionada);
+                intent.putExtra("tiempoLimiteDesactivado", tiempoLimiteDesactivado);
+                intent.putExtra("rondasLimiteDesactivadas", rondasLimiteDesactivadas);
                 startActivity(intent);
             }
         });
@@ -435,7 +450,31 @@ public class PantallaJuego extends AppCompatActivity {
         });
 
         //Introducir switches de limite rondas y limite tiempo en el futuro
+        scTiempo.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton compoundButton, boolean isChecked) {
+                tiempoLimiteDesactivado = isChecked;
 
+                SharedPreferences configTiempo = getSharedPreferences("MisPreferencias", MODE_PRIVATE);
+                SharedPreferences.Editor configuracion = configTiempo.edit();
+                configuracion.putBoolean("tiempoSinLimite", isChecked);
+                configuracion.apply();
+            }
+        });
+
+        scRondas.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton compoundButton, boolean isChecked) {
+                rondasLimiteDesactivadas = isChecked;
+
+                SharedPreferences configTiempo = getSharedPreferences("MisPreferencias", MODE_PRIVATE);
+                SharedPreferences.Editor configuracion = configTiempo.edit();
+                configuracion.putBoolean("rondasSinLimite", isChecked);
+                configuracion.apply();
+            }
+
+
+        });
 
         /*Spinners*/
         ArrayAdapter<String> adaptadorIdiomas = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, idiomas);

@@ -1,4 +1,4 @@
-package com.example.openquest;// En tu clase Retrofit.java (o RetrofitClient.java)
+package com.example.openquest;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonDeserializer;

@@ -8,9 +8,7 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import java.text.DateFormat;
 import java.text.SimpleDateFormat;
-import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 
@@ -54,7 +52,7 @@ public class PartidaAdapter extends RecyclerView.Adapter<PartidaAdapter.ViewHold
         }
 
         // Include the formatted date in textoDetalle
-        holder.textoDetalle.setText("Puntaje: " + p.getPuntuacion() + " | Rondas: " + p.getRondasJugadas() + "\nFecha: " + fechaFormateada);
+        holder.textoDetalle.setText("Usuario: " + p.getJugador() + " | Puntaje: " + p.getPuntuacion() + " | Rondas: " + p.getRondasJugadas() + "\nFecha: " + fechaFormateada);
     }
 
     @Override

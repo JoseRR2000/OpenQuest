@@ -27,10 +27,12 @@ public class Juego extends AppCompatActivity {
     private CountDownTimer contador;
     private TextView tiempo;
     private long tiempoRestante;
+    private int idUsuarioLogeado;
     private int tiempoBase;
     private int rondas;
     private int puntuacion = 0;
-
+    private boolean tiempoLimiteDesactivado;
+    private boolean rondasLimiteDesactivadas;
     private String dificultad;
     private TextView textoPuntuacion;
     private TextView textoPuntos;
@@ -62,15 +64,43 @@ public class Juego extends AppCompatActivity {
         });
         indicePregunta = 0;
 
+        inicializar();
         dificultadRecibida();
         obtenerPreguntas();
         seleccionRespuestas();
+    }
+
+    private void inicializar() {
+        SharedPreferences prefs = getSharedPreferences(PREFS_NAME, MODE_PRIVATE);
+
+        textoPuntuacion = findViewById(R.id.texto_puntuacion);
+        textoPuntos = findViewById(R.id.texto_puntos);
+        btnSiguiente = findViewById(R.id.btn_siguiente);
+        tiempo = findViewById(R.id.texto_tiempo);
+        idUsuarioLogeado = prefs.getInt(KEY_USER_ID, -1);
+
+        Bundle extras = getIntent().getExtras();
+        if (extras != null) {
+            tiempoLimiteDesactivado = extras.getBoolean("tiempoLimiteDesactivado", false);
+            rondasLimiteDesactivadas = extras.getBoolean("rondasLimiteDesactivadas", false);
+        }
+
+        // Si el tiempo límite está desactivado, el TextView del tiempo no debería ser visible
+        if (tiempoLimiteDesactivado) {
+            if (tiempo != null) {
+                tiempo.setVisibility(View.GONE); // Oculta el contador de tiempo
+            }
+        } else {
+            if (tiempo != null) {
+                tiempo.setVisibility(View.VISIBLE); // Asegúrate de que el contador sea visible si no está desactivado
+            }
+        }
     }
     private void dificultadRecibida() {
         dificultad = getIntent().getStringExtra("dificultad");
 
         if (dificultad == null) {
-            dificultad = "fácil";
+            dificultad = "Fácil";
         }
 
         switch (dificultad) {
@@ -93,25 +123,35 @@ public class Juego extends AppCompatActivity {
     }
 
     private void iniciarTemporizador() {
-        if (contador != null) {
-            contador.cancel();
+        if (!tiempoLimiteDesactivado) {
+            if (contador != null) {
+                contador.cancel();
+            }
+
+            contador = new CountDownTimer(tiempoBase, 1000) {
+                public void onTick(long millisUntilFinished) {
+                    tiempo.setText(String.valueOf(millisUntilFinished / 1000));
+                    tiempoRestante = millisUntilFinished;
+                }
+
+                public void onFinish() {
+                    tiempo.setText("0");
+                    Toast.makeText(Juego.this, "¡Tiempo agotado!", Toast.LENGTH_SHORT).show();
+                    abortarJuego();
+                    finish();
+                }
+            }.start();
         }
-
-        tiempo = findViewById(R.id.texto_tiempo);
-
-        contador = new CountDownTimer(tiempoBase, 1000) {
-            public void onTick(long millisUntilFinished) {
-                tiempo.setText(String.valueOf(millisUntilFinished / 1000));
-                tiempoRestante = millisUntilFinished;
+        else {
+            if (tiempo != null) {
+                tiempo.setText("");
+            }
+            if (contador != null) {
+                contador.cancel();
             }
 
-            public void onFinish() {
-                tiempo.setText("0");
-                Toast.makeText(Juego.this, "¡Tiempo agotado!", Toast.LENGTH_SHORT).show();
-                abortarJuego();
-                finish();
-            }
-        }.start();
+            tiempoRestante = tiempoBase;
+        }
     }
 
     private void obtenerPreguntas() {
@@ -189,7 +229,9 @@ public class Juego extends AppCompatActivity {
         cajaRespuesta3.setBackgroundColor(Color.WHITE);
         cajaRespuesta4.setBackgroundColor(Color.WHITE);
 
-        if (indicePregunta >= rondas || indicePregunta >= listaPreguntas.size()) {
+        btnSiguiente.setVisibility(View.GONE);
+
+        if ((indicePregunta >= rondas && !rondasLimiteDesactivadas) || indicePregunta >= listaPreguntas.size()) {
             // Finalizar partida o ir a pantalla de resultados
             Toast.makeText(this, "¡Partida finalizada!", Toast.LENGTH_LONG).show();
             finalizarJuego();
@@ -258,10 +300,10 @@ public class Juego extends AppCompatActivity {
     }
 
     private void comprobarRespuesta(TextView seleccionada, LinearLayout cajaCorrecta, LinearLayout cajaIncorrecta1, LinearLayout cajaIncorrecta2, LinearLayout cajaIncorrecta3) {
-        contador.cancel();
-        textoPuntuacion = findViewById(R.id.texto_puntuacion);
-        textoPuntos = findViewById(R.id.texto_puntos);
-        btnSiguiente = findViewById(R.id.btn_siguiente);
+        if (contador != null) {
+            contador.cancel();
+        }
+
         Pregunta pregunta = listaPreguntas.get(indicePregunta);
         String respuestaCorrecta = pregunta.getRespuestaCorrecta();
 
@@ -320,39 +362,38 @@ public class Juego extends AppCompatActivity {
         boolean estaLogeado = prefs.getBoolean(KEY_LOGGED_IN, false);
 
         if (estaLogeado) {
-            int userId = prefs.getInt(KEY_USER_ID, -1);
+            if (idUsuarioLogeado != -1) {
+                if (tiempoLimiteDesactivado || rondasLimiteDesactivadas) {
+                    finish();
+                    return;
+                }
+                else {
+                    Partida nuevaPartida = new Partida();
+                    Retrofit retro = new Retrofit();
 
-            if (userId != -1) {
-                Partida nuevaPartida = new Partida();
-                Retrofit retro = new Retrofit();
+                    nuevaPartida.setId_jugador(idUsuarioLogeado);
+                    nuevaPartida.setPuntuacion(puntuacion);
+                    nuevaPartida.setDificultad(dificultad);
+                    nuevaPartida.setRondasJugadas(rondas);
 
-                nuevaPartida.setPuntuacion(puntuacion);
-                nuevaPartida.setDificultad(dificultad);
-                nuevaPartida.setRondasJugadas(rondas);
-
-                retro.getApi().guardarPartida(nuevaPartida).enqueue(new Callback<ApiResponse>() {
-                    @Override
-                    public void onResponse(Call<ApiResponse> call, Response<ApiResponse> response) {
-                        if (response.isSuccessful() && response.body() != null) {
-                            // Accedes a los campos de la respuesta usando los getters de ApiResponse
-                            if (response.body().isSuccess()) {
-                                Toast.makeText(Juego.this, "Partida guardada con éxito! ID: " + response.body().getId(), Toast.LENGTH_SHORT).show();
-                                // Puedes redirigir o actualizar la UI aquí
+                    retro.getApi().guardarPartida(nuevaPartida).enqueue(new Callback<ApiResponse>() {
+                        @Override
+                        public void onResponse(Call<ApiResponse> call, Response<ApiResponse> response) {
+                            if (response.isSuccessful() && response.body() != null) {
+                                if (response.body().isSuccess()) {
+                                    Toast.makeText(Juego.this, "Fin de la partida", Toast.LENGTH_SHORT).show();
+                                }
                             } else {
-                                Toast.makeText(Juego.this, "Error al guardar partida: " + response.body().getMessage(), Toast.LENGTH_LONG).show();
+                                Toast.makeText(Juego.this, "Error en la respuesta del servidor: " + response.code(), Toast.LENGTH_LONG).show();
                             }
-                        } else {
-                            // Manejar errores de HTTP (códigos 4xx, 5xx) o cuerpo de respuesta nulo
-                            Toast.makeText(Juego.this, "Error en la respuesta del servidor: " + response.code(), Toast.LENGTH_LONG).show();
                         }
-                    }
 
-                    @Override
-                    public void onFailure(Call<ApiResponse> call, Throwable t) {
-                        // Manejar errores de red (no se pudo conectar al servidor)
-                        Toast.makeText(Juego.this, "Error de red al guardar partida: " + t.getMessage(), Toast.LENGTH_LONG).show();
-                    }
-                });
+                        @Override
+                        public void onFailure(Call<ApiResponse> call, Throwable t) {
+                            Toast.makeText(Juego.this, "Error de red al guardar partida: " + t.getMessage(), Toast.LENGTH_LONG).show();
+                        }
+                    });
+                }
             }
             else {
                 Toast.makeText(Juego.this, "Juego finalizado. Inicia sesión o regístrate para guardar tu partida.", Toast.LENGTH_LONG).show();

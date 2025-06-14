@@ -23,10 +23,11 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="GESTIÓN DEL PERFIL"
+                android:text="@string/profile_management"
                 android:textColor="@color/black"
                 android:textStyle="bold"
                 android:textSize="30sp"
+                android:textAlignment="center"
                 >
             </TextView>
 
@@ -34,7 +35,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="20dp"
-                android:text="CAMBIAR NOMBRE"
+                android:text="@string/change_name"
                 android:textColor="@color/black"
                 >
             </TextView>
@@ -52,7 +53,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="20dp"
-                android:text="CAMBIAR CONTRASEÑA"
+                android:text="@string/change_password"
                 android:textColor="@color/black"
                 >
             </TextView>
@@ -71,7 +72,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="20dp"
-                android:text="CAMBIAR CREDENCIALES"
+                android:text="@string/change_credentials"
                 >
             </Button>
 
@@ -80,7 +81,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="60dp"
-                android:text="ELIMINAR PERFIL"
+                android:text="@string/delete_profile"
                 >
             </Button>
 

@@ -117,7 +117,7 @@ public class PantallaJuego extends AppCompatActivity {
         recyclerPartidas.setLayoutManager(new LinearLayoutManager(this));
 
         adapter = new LogrosAdapter(listaLogros);
-        adapterPartidas = new PartidaAdapter(listaPartidas);
+        adapterPartidas = new PartidaAdapter(listaPartidas, this);
 
         recyclerLogros.setAdapter(adapter);
         recyclerPartidas.setAdapter(adapterPartidas);

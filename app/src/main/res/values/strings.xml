@@ -17,6 +17,7 @@
     <string name="sports">SPORTS</string>
     <string name="computing">COMPUTING</string>
     <string name="medicine">MEDICINE</string>
+    <string name="get_questions_error">Error getting the questions</string>
 
     /*Options*/
     <string name="sound">SOUND</string>
@@ -35,6 +36,15 @@
     <string name="easy">Easy</string>
     <string name="normal">Normal</string>
     <string name="hard">Hard</string>
+    <string name="profile_management">PROFILE MANAGEMENT</string>
+    <string name="change_name">CHANGE NAME</string>
+    <string name="change_password">CHANGE PASSWORD</string>
+    <string name="delete_profile">DELETE PROFILE</string>
+    <string name="id_error">Error: Could not get the user ID. Please log in again.</string>
+    <string name="empty_box">Introduce at least one new name or a new password.</string>
+    <string name="short_password">The password must have at least 6 characters.</string>
+    <string name="update_profile_error">Error updting profile: </string>
+    <string name="delete_profile_error">Error deleting profile: </string>
 
     /*Login*/
     <string name="login">LOGIN</string>
@@ -43,12 +53,16 @@
     <string name="exit">EXIT</string>
     <string name="enter_email">ENTER YOUR EMAIL</string>
     <string name="enter_password">ENTER YOUR PASSWORD</string>
+    <string name="enter_valid_email">Introduce un email válido</string>
+    <string name="welcome">Welcome!!!</string>
 
     /*Register*/
     <string name="put_a_name">Put a name</string>
     <string name="put_an_email">Put an email</string>
     <string name="put_a_password">Put a password</string>
     <string name="send">SEND</string>
+    <string name="register_successful">Registration successful! You can now log in.</string>
+    <string name="register_error">Register error: </string>
 
     /*Ranking*/
     <string name="title_ranking">Match Ranking</string>
@@ -56,6 +70,12 @@
     <string name="ranking_http_error">Error loading ranking: HTTP </string>
     <string name="no_matches">No matches found</string>
     <string name="unable_view_ranking">You must log in to view the global ranking</string>
+    <string name="dificultad_ranking">Difficulty: </string>
+    <string name="no_date">Date not available</string>
+    <string name="user_ranking">User </string>
+    <string name="score_ranking">Score </string>
+    <string name="rounds_ranking">Rounds </string>
+    <string name="date_ranking">Date </string>
 
     /*Editor*/
     <string name="create_question">CREATE QUESTION</string>
@@ -78,10 +98,20 @@
     <string name="create_question_error_http">Failed to create question: HTTP </string>
     <string name="category_not_found">Error: Category not found.</string>
     <string name="question_created">Question created</string>
+    <string name="edit">Edit</string>
+    <string name="change_question">CHANGE QUESTION</string>
 
-    /*Logros*/
+
+    /*Archievements*/
     <string name="unable_view_archievements">You must log in to be able to obtain and view achievements.</string>
 
+    /*In Game*/
+    <string name="time_out">Time Out!!!</string>
+    <string name="finish_game">¡Game finished!</string>
+    <string name="game_score">Score: </string>
+    <string name="server_error">Server response error: </string>
+    <string name="save_game_error">Network error saving the game</string>
+    <string name="login_require_to_save">Game finished. Log in to save your games.</string>
 
     <string-array name="idiomas_pregunta">
         <item>es</item>

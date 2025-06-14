@@ -1,6 +1,7 @@
 package com.example.openquest;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.widget.Toast;
 
@@ -24,6 +25,7 @@ public class ActivityEdicionPregunta extends AppCompatActivity implements Pregun
     private List<Pregunta> listaPreguntas = new ArrayList<>();
     private PreguntaAdapter adaptadorPreguntas;
     private RecyclerView recyclerPreguntas;
+    private String idioma;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,6 +46,9 @@ public class ActivityEdicionPregunta extends AppCompatActivity implements Pregun
         adaptadorPreguntas = new PreguntaAdapter(listaPreguntas, this); // Pasa la lista y el listener
         recyclerPreguntas.setAdapter(adaptadorPreguntas);
 
+        SharedPreferences prefs = getSharedPreferences("MisPreferencias", MODE_PRIVATE);
+        idioma = prefs.getString("idioma", "es");
+
         Retrofit retro = new Retrofit();
 
         int categoria = getIntent().getIntExtra("categoria", -1);
@@ -53,7 +58,7 @@ public class ActivityEdicionPregunta extends AppCompatActivity implements Pregun
             return;
         }
 
-        retro.getApi().obtenerPreguntasPorCategoria(categoria).enqueue(new Callback<List<Pregunta>>() {
+        retro.getApi().obtenerPreguntasPorCategoriaEnIdioma(categoria, idioma).enqueue(new Callback<List<Pregunta>>() {
             @Override
             public void onResponse(Call<List<Pregunta>> call, Response<List<Pregunta>> response) {
                 listaPreguntas = response.body();

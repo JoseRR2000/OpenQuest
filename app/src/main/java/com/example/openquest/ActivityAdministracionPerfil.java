@@ -55,13 +55,14 @@ public class ActivityAdministracionPerfil extends AppCompatActivity {
         botonEditarPerfil = findViewById(R.id.btn_editar_perfil);
         botonEliminarPerfil = findViewById(R.id.btn_eliminar_perfil);
 
+        botonEditarPerfil.setText(getString(R.string.change_credentials).toUpperCase());
         //Recuperar los datos del usuario de SharedPreferences
         SharedPreferences prefs = getSharedPreferences(PREFS_NAME, MODE_PRIVATE);
         loggedInUserId = prefs.getInt(KEY_USER_ID, -1); // -1 como valor por defecto si no se encuentra
         nombreUsuarioLogeado = prefs.getString(KEY_USERNAME, "Invitado"); // "Invitado" como valor por defecto
 
         if (nombreUsuarioLogeado != null && !nombreUsuarioLogeado.isEmpty()) {
-            txtNuevoNombre.setText(nombreUsuarioLogeado); // Esto pondrá el nombre actual en el campo de edición
+            txtNuevoNombre.setText(nombreUsuarioLogeado);
         }
 
         botonEditarPerfil.setOnClickListener(new View.OnClickListener() {
@@ -71,20 +72,20 @@ public class ActivityAdministracionPerfil extends AppCompatActivity {
                 String nuevoPassword = txtNuevoPassword.getText().toString().trim();
 
                 if (loggedInUserId == -1) {
-                    Toast.makeText(ActivityAdministracionPerfil.this, "Error: No se pudo obtener el ID de usuario. Vuelve a iniciar sesión.", Toast.LENGTH_LONG).show();
+                    Toast.makeText(ActivityAdministracionPerfil.this, getString(R.string.id_error), Toast.LENGTH_LONG).show();
                     return;
                 }
 
                 // Si ambos campos están vacíos
                 if (nuevoNombre.isEmpty() && nuevoPassword.isEmpty()) {
-                    Toast.makeText(ActivityAdministracionPerfil.this, "Introduce al menos un nuevo nombre o una nueva contraseña.", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(ActivityAdministracionPerfil.this, getString(R.string.empty_box), Toast.LENGTH_SHORT).show();
                     return;
                 }
 
                 // Validar contraseña si se intenta cambiar
                 if (!nuevoPassword.isEmpty()) {
                     if (nuevoPassword.length() < 6) {
-                        Toast.makeText(ActivityAdministracionPerfil.this, "La contraseña debe tener al menos 6 caracteres.", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(ActivityAdministracionPerfil.this, getString(R.string.short_password), Toast.LENGTH_SHORT).show();
                     }
                 }
 
@@ -115,13 +116,13 @@ public class ActivityAdministracionPerfil extends AppCompatActivity {
                             txtNuevoPassword.setText("");
                         }
                         else if (apiResponse.getError() != null) {
-                            Toast.makeText(ActivityAdministracionPerfil.this, "Error al actualizar perfil: " + apiResponse.getError(), Toast.LENGTH_LONG).show();
+                            Toast.makeText(ActivityAdministracionPerfil.this, getString(R.string.update_profile_error) + apiResponse.getError(), Toast.LENGTH_LONG).show();
                         }
                     }
 
                     @Override
                     public void onFailure(Call<ApiResponse> call, Throwable t) {
-                        Toast.makeText(ActivityAdministracionPerfil.this, "Error de red: " + t.getMessage(), Toast.LENGTH_LONG).show();
+                        Toast.makeText(ActivityAdministracionPerfil.this, getString(R.string.network_error) + t.getMessage(), Toast.LENGTH_LONG).show();
                     }
                 });
             }
@@ -158,14 +159,13 @@ public class ActivityAdministracionPerfil extends AppCompatActivity {
                             startActivity(intent);
                             finish();
                         } else {
-                            Toast.makeText(ActivityAdministracionPerfil.this, "Error al eliminar: " + apiResponse.getError(), Toast.LENGTH_LONG).show();
-                            Log.e("PerfilAdminAPI", "Error al eliminar perfil: " + apiResponse.getError());
+                            Toast.makeText(ActivityAdministracionPerfil.this, getString(R.string.delete_profile) + apiResponse.getError(), Toast.LENGTH_LONG).show();
                         }
                     }
 
                     @Override
                     public void onFailure(Call<ApiResponse> call, Throwable t) {
-                        Toast.makeText(ActivityAdministracionPerfil.this, "Error de conexión al eliminar: " + t.getMessage(), Toast.LENGTH_LONG).show();
+                        Toast.makeText(ActivityAdministracionPerfil.this, getString(R.string.network_error) + t.getMessage(), Toast.LENGTH_LONG).show();
                     }
                 });
             }

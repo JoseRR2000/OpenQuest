@@ -1,5 +1,7 @@
 package com.example.openquest;
 
+import android.content.Context; // <-- Importar Context
+import android.content.SharedPreferences; // <-- Para leer preferencias de idioma
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,9 +16,16 @@ import java.util.Locale;
 
 public class PartidaAdapter extends RecyclerView.Adapter<PartidaAdapter.ViewHolder> {
     private List<Partida> partidas;
+    private Context context; // <-- Nueva variable para el Context
+    private String idiomaGuardado; // <-- Para guardar el idioma de la preferencia
 
-    public PartidaAdapter(List<Partida> partidas) {
+    // Constructor que acepta el Context
+    public PartidaAdapter(List<Partida> partidas, Context context) {
         this.partidas = partidas;
+        this.context = context;
+        // Obtener el idioma guardado al inicializar el adaptador
+        SharedPreferences prefs = context.getSharedPreferences("MyPrefs", Context.MODE_PRIVATE);
+        idiomaGuardado = prefs.getString("MisPreferencias", "es"); // Usa la misma clave "MisPreferencias"
     }
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
@@ -41,18 +50,35 @@ public class PartidaAdapter extends RecyclerView.Adapter<PartidaAdapter.ViewHold
     public void onBindViewHolder(@NonNull PartidaAdapter.ViewHolder holder, int position) {
         Partida p = partidas.get(position);
 
-        holder.textoDificultad.setText("Dificultad: " + p.getDificultad());
+        String dificultadTexto;
+        switch (p.getDificultad()) {
+            case "Fácil":
+                dificultadTexto = context.getString(R.string.easy);
+                break;
+            case "Normal":
+                dificultadTexto = context.getString(R.string.normal);
+                break;
+            case "Difícil":
+                dificultadTexto = context.getString(R.string.hard);
+                break;
+            default:
+                dificultadTexto = p.getDificultad(); // Fallback
+                break;
+        }
+        holder.textoDificultad.setText(context.getString(R.string.difficulty) + ": " + dificultadTexto);
+        // ---------------------------------------------------------------
+
 
         String fechaFormateada;
         if (p.getFecha() != null) {
-            SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy HH:mm", Locale.getDefault());
+            Locale currentLocale = new Locale(idiomaGuardado);
+            SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy HH:mm", currentLocale);
             fechaFormateada = formatter.format(p.getFecha());
         } else {
-            fechaFormateada = "Fecha no disponible";
+            fechaFormateada = context.getString(R.string.no_date);
         }
 
-        // Include the formatted date in textoDetalle
-        holder.textoDetalle.setText("Usuario: " + p.getJugador() + " | Puntaje: " + p.getPuntuacion() + " | Rondas: " + p.getRondasJugadas() + "\nFecha: " + fechaFormateada);
+        holder.textoDetalle.setText(context.getString(R.string.user_ranking) + ": " + p.getJugador() + " | " + context.getString(R.string.score_ranking) + ": " + p.getPuntuacion() + " | " + context.getString(R.string.rounds_ranking) + ": " + p.getRondasJugadas() + "\n" + context.getString(R.string.date_ranking) + ": " + fechaFormateada);
     }
 
     @Override
@@ -60,4 +86,3 @@ public class PartidaAdapter extends RecyclerView.Adapter<PartidaAdapter.ViewHold
         return partidas.size();
     }
 }
-

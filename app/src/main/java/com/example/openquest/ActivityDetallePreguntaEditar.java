@@ -74,10 +74,8 @@ public class ActivityDetallePreguntaEditar extends AppCompatActivity {
                 String respuesta4 = respuesta4Editada.getText().toString().trim();
                 String respuestaCorrecta = respuestaCorrectaEditada.getText().toString().trim();
 
-                String idiomaSeleccionado = spinnerIdioma.getSelectedItem().toString();
-
                 if (pregunta.isEmpty() || respuesta1.isEmpty() || respuesta2.isEmpty() || respuesta3.isEmpty() || respuesta4.isEmpty() || respuestaCorrecta.isEmpty()) {
-                    Toast.makeText(ActivityDetallePreguntaEditar.this, "Por favor, rellena todos los campos.", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(ActivityDetallePreguntaEditar.this, getString(R.string.not_all_answers), Toast.LENGTH_SHORT).show();
                 }
                 else {
                     String[] respuestasOpciones = {respuesta1, respuesta2, respuesta3, respuesta4};
@@ -119,21 +117,21 @@ public class ActivityDetallePreguntaEditar extends AppCompatActivity {
                                         spinnerIdioma.setSelection(0);
                                         finish();
                                     } else if (apiResponse.getError() != null) {
-                                        Toast.makeText(ActivityDetallePreguntaEditar.this, "Error al crear pregunta: " + apiResponse.getError(), Toast.LENGTH_LONG).show();
+                                        Toast.makeText(ActivityDetallePreguntaEditar.this, getString(R.string.create_question_error) + apiResponse.getError(), Toast.LENGTH_LONG).show();
                                     }
                                 } else {
-                                    Toast.makeText(ActivityDetallePreguntaEditar.this, "Error al crear pregunta: HTTP " + response.code(), Toast.LENGTH_LONG).show();
+                                    Toast.makeText(ActivityDetallePreguntaEditar.this, getString(R.string.create_question_error_http) + response.code(), Toast.LENGTH_LONG).show();
                                 }
                             }
 
                             @Override
                             public void onFailure(Call<ApiResponse> call, Throwable t) {
-                                Toast.makeText(ActivityDetallePreguntaEditar.this, "Error de red: " + t.getMessage(), Toast.LENGTH_LONG).show();
+                                Toast.makeText(ActivityDetallePreguntaEditar.this, getString(R.string.network_error) + t.getMessage(), Toast.LENGTH_LONG).show();
                             }
                         });
                     }
                     else {
-                        Toast.makeText(ActivityDetallePreguntaEditar.this, "La respuesta correcta no coincide con ninguna de las opciones.", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(ActivityDetallePreguntaEditar.this, getString(R.string.responses_do_not_match), Toast.LENGTH_SHORT).show();
                     }
                 }
             }

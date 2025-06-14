@@ -54,11 +54,11 @@ public class RegisterActivity extends AppCompatActivity {
                 String mailUsuario = textoMail.getText().toString().trim();
 
                 if (nombreUsuario.isEmpty() || contrasenaUsuario.isEmpty() || mailUsuario.isEmpty()) {
-                    Toast.makeText(RegisterActivity.this, "Por favor, rellena todos los campos.", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(RegisterActivity.this, getString(R.string.not_all_answers), Toast.LENGTH_SHORT).show();
                 }
 
                 if (!mailUsuario.endsWith("@gmail.com")) {
-                    Toast.makeText(RegisterActivity.this, "Debes introducir un mail válido", Toast.LENGTH_LONG).show();
+                    Toast.makeText(RegisterActivity.this, getString(R.string.enter_valid_email), Toast.LENGTH_LONG).show();
                 }
 
                 retro.getApi().registerUser(nombreUsuario, mailUsuario, contrasenaUsuario).enqueue(new Callback<RegistrationResponse>() {
@@ -68,21 +68,19 @@ public class RegisterActivity extends AppCompatActivity {
                             RegistrationResponse regResponse = response.body();
                             if (regResponse.isSuccess()) {
                                 // Registro exitoso
-                                Toast.makeText(RegisterActivity.this, "¡Registro exitoso! Ahora puedes iniciar sesión.", Toast.LENGTH_LONG).show();
-                                finish(); // Cierra esta actividad y regresa a la anterior (MainActivity)
+                                Toast.makeText(RegisterActivity.this, getString(R.string.register_successful), Toast.LENGTH_LONG).show();
+                                finish();
                             } else {
-                                // Registro fallido (ej. usuario/email ya existe, error en el servidor)
-                                Toast.makeText(RegisterActivity.this, "Error de registro: " + regResponse.getMessage(), Toast.LENGTH_LONG).show();
+                                Toast.makeText(RegisterActivity.this, getString(R.string.register_error) + regResponse.getMessage(), Toast.LENGTH_LONG).show();
                             }
                         } else {
-                            // La respuesta del servidor no fue exitosa (código 4xx, 5xx)
-                            Toast.makeText(RegisterActivity.this, "Error en el servidor al registrar: " + response.code(), Toast.LENGTH_LONG).show();
+                            Toast.makeText(RegisterActivity.this, getString(R.string.server_error) + response.code(), Toast.LENGTH_LONG).show();
                         }
                     }
 
                     @Override
                     public void onFailure(Call<RegistrationResponse> call, Throwable t) {
-                        Toast.makeText(RegisterActivity.this, "Error de red al registrar: " + t.getMessage(), Toast.LENGTH_LONG).show();
+                        Toast.makeText(RegisterActivity.this, getString(R.string.network_error) + t.getMessage(), Toast.LENGTH_LONG).show();
                     }
                 });
             }

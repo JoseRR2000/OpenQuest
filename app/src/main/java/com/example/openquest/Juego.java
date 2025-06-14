@@ -66,8 +66,8 @@ public class Juego extends AppCompatActivity {
         indicePregunta = 0;
 
         inicializar();
-        dificultadRecibida();
         configurarIdiomaDesdePrefs();
+        dificultadRecibida();
         obtenerPreguntas();
         seleccionRespuestas();
     }
@@ -121,6 +121,7 @@ public class Juego extends AppCompatActivity {
             default:
                 tiempoBase = 30000;
                 rondas = 15;
+                break;
         }
     }
 
@@ -138,7 +139,7 @@ public class Juego extends AppCompatActivity {
 
                 public void onFinish() {
                     tiempo.setText("0");
-                    Toast.makeText(Juego.this, "¡Tiempo agotado!", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(Juego.this, getString(R.string.time_out), Toast.LENGTH_SHORT).show();
                     abortarJuego();
                     finish();
                 }
@@ -158,7 +159,6 @@ public class Juego extends AppCompatActivity {
 
     private void configurarIdiomaDesdePrefs() {
         SharedPreferences prefs = getSharedPreferences("MisPreferencias", MODE_PRIVATE);
-        // Leer el idioma guardado, por defecto "es" si no hay nada guardado
         idioma = prefs.getString("idioma", "es");
     }
     private void obtenerPreguntas() {
@@ -187,7 +187,7 @@ public class Juego extends AppCompatActivity {
 
             @Override
             public void onFailure(Call<List<Pregunta>> call, Throwable t) {
-                Toast.makeText(Juego.this, "Error al obtener preguntas", Toast.LENGTH_SHORT).show();
+                Toast.makeText(Juego.this, getString(R.string.get_questions_error), Toast.LENGTH_SHORT).show();
                 abortarJuego();
                 finish();
             }
@@ -208,7 +208,7 @@ public class Juego extends AppCompatActivity {
 
             @Override
             public void onFailure(Call<List<Pregunta>> call, Throwable t) {
-                Toast.makeText(Juego.this, "Error al obtener preguntas", Toast.LENGTH_SHORT).show();
+                Toast.makeText(Juego.this, getString(R.string.get_questions_error), Toast.LENGTH_SHORT).show();
                 abortarJuego();
                 finish();
             }
@@ -239,8 +239,7 @@ public class Juego extends AppCompatActivity {
         btnSiguiente.setVisibility(View.GONE);
 
         if ((indicePregunta >= rondas && !rondasLimiteDesactivadas) || indicePregunta >= listaPreguntas.size()) {
-            // Finalizar partida o ir a pantalla de resultados
-            Toast.makeText(this, "¡Partida finalizada!", Toast.LENGTH_LONG).show();
+            Toast.makeText(this, getString(R.string.finish_game), Toast.LENGTH_LONG).show();
             finalizarJuego();
             finish();
         }
@@ -324,7 +323,7 @@ public class Juego extends AppCompatActivity {
             puntuacion += puntosGanados;
 
             if (textoPuntuacion != null) {
-                textoPuntuacion.setText("Puntuación: ");
+                textoPuntuacion.setText(getString(R.string.game_score));
                 textoPuntos.setText(String.valueOf(puntuacion));
             }
         }
@@ -388,22 +387,22 @@ public class Juego extends AppCompatActivity {
                         public void onResponse(Call<ApiResponse> call, Response<ApiResponse> response) {
                             if (response.isSuccessful() && response.body() != null) {
                                 if (response.body().isSuccess()) {
-                                    Toast.makeText(Juego.this, "Fin de la partida", Toast.LENGTH_SHORT).show();
+                                    Toast.makeText(Juego.this, getString(R.string.finish_game), Toast.LENGTH_SHORT).show();
                                 }
                             } else {
-                                Toast.makeText(Juego.this, "Error en la respuesta del servidor: " + response.code(), Toast.LENGTH_LONG).show();
+                                Toast.makeText(Juego.this, getString(R.string.server_error) + response.code(), Toast.LENGTH_LONG).show();
                             }
                         }
 
                         @Override
                         public void onFailure(Call<ApiResponse> call, Throwable t) {
-                            Toast.makeText(Juego.this, "Error de red al guardar partida: " + t.getMessage(), Toast.LENGTH_LONG).show();
+                            Toast.makeText(Juego.this, getString(R.string.save_game_error) + t.getMessage(), Toast.LENGTH_LONG).show();
                         }
                     });
                 }
             }
             else {
-                Toast.makeText(Juego.this, "Juego finalizado. Inicia sesión o regístrate para guardar tu partida.", Toast.LENGTH_LONG).show();
+                Toast.makeText(Juego.this, getString(R.string.login_require_to_save), Toast.LENGTH_LONG).show();
             }
             finish();
         }

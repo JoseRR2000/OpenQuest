@@ -57,11 +57,11 @@ public class LoginActivity extends AppCompatActivity {
                 String password = passwordLogin.getText().toString().trim();
 
                 if (email.isEmpty() || password.isEmpty()) {
-                    Toast.makeText(LoginActivity.this, "Debes rellenar todos los campos.", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(LoginActivity.this, getString(R.string.not_all_answers), Toast.LENGTH_SHORT).show();
                 }
 
                 if (!email.endsWith("@gmail.com")) {
-                    Toast.makeText(LoginActivity.this, "Introduce un email válido.", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(LoginActivity.this, getString(R.string.enter_valid_email), Toast.LENGTH_SHORT).show();
                 }
 
                 retro.getApi().login(email, password).enqueue(new Callback<LoginResponse>() {
@@ -70,32 +70,26 @@ public class LoginActivity extends AppCompatActivity {
                         if (response.isSuccessful() && response.body() != null) {
                             LoginResponse loginResponse = response.body();
                             if (loginResponse.isSuccess()) {
-                                // Login exitoso
-                                Toast.makeText(LoginActivity.this, "¡Bienvenido!", Toast.LENGTH_SHORT).show();
-
-                                // Guardar estado de sesión en SharedPreferences
+                                Toast.makeText(LoginActivity.this, getString(R.string.welcome), Toast.LENGTH_SHORT).show();
                                 SharedPreferences.Editor editor = getSharedPreferences(PREFS_NAME, MODE_PRIVATE).edit();
                                 editor.putBoolean(KEY_LOGGED_IN, true);
-                                editor.putInt(KEY_USER_ID, loginResponse.getUserId()); // Asume que LoginResponse tiene un getUserId()
+                                editor.putInt(KEY_USER_ID, loginResponse.getUserId());
                                 editor.putString(KEY_USERNAME, loginResponse.getUsername());
-                                editor.apply(); // Guarda los cambios asincrónicamente
+                                editor.apply();
 
-                                // Navegar a la siguiente pantalla (ej. PantallaJuego)
                                 entrarPantallaJuego(loginResponse.getUserId(), loginResponse.getUsername());
 
                             } else {
-                                // Login fallido (credenciales incorrectas, etc.)
                                 Toast.makeText(LoginActivity.this, loginResponse.getMessage(), Toast.LENGTH_LONG).show();
                             }
                         } else {
-                            // La respuesta del servidor no fue exitosa (código 4xx, 5xx)
-                            Toast.makeText(LoginActivity.this, "Error en el servidor: " + response.code(), Toast.LENGTH_LONG).show();
+                            Toast.makeText(LoginActivity.this, getString(R.string.server_error) + response.code(), Toast.LENGTH_LONG).show();
                         }
                     }
 
                     @Override
                     public void onFailure(Call<LoginResponse> call, Throwable t) {
-                        Toast.makeText(LoginActivity.this, "Error de red: " + t.getMessage(), Toast.LENGTH_LONG).show();
+                        Toast.makeText(LoginActivity.this, getString(R.string.network_error) + t.getMessage(), Toast.LENGTH_LONG).show();
                     }
                 });
             }

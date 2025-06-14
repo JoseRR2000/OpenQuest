@@ -9,9 +9,8 @@ public class Partida {
     private String jugador;
     private String resultado;
     private int puntuacion; // Nombre del campo para la puntuación
-    private Date fecha;     // Tipo Date para la fecha (como lo usas en el adapter)
+    private Date fecha;     // Tipo Date para la fecha)
 
-    // *** NUEVOS CAMPOS AÑADIDOS ***
     private String dificultad; // Para almacenar la dificultad ("Fácil", "Normal", "Difícil")
     private int rondasJugadas; // Para almacenar el número de rondas jugadas
 
@@ -34,7 +33,7 @@ public class Partida {
     }
 
     public int getPuntuacion() {
-        return puntuacion; // Coincide con el nombre del campo
+        return puntuacion;
     }
 
     public Date getFecha() {

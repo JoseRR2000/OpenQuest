@@ -1,14 +1,23 @@
 package com.example.openquest;
 
-public class Pregunta {
-    private int idPregunta;
-    private String pregunta;
-    private String categoria;
+import com.google.gson.annotations.SerializedName;
 
+public class Pregunta {
+    @SerializedName("idPregunta")
+    private int idPregunta;
+    @SerializedName("pregunta")
+    private String pregunta;
+    @SerializedName("categoria")
+    private String categoria;
+    @SerializedName("respuesta1")
     private String respuesta1;
+    @SerializedName("respuesta2")
     private String respuesta2;
+    @SerializedName("respuesta3")
     private String respuesta3;
+    @SerializedName("respuesta4")
     private String respuesta4;
+    @SerializedName("respuestaCorrecta")
     private String respuestaCorrecta;
 
     //Getters y Setters

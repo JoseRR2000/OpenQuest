@@ -14,10 +14,16 @@ import retrofit2.http.Query;
 
 public interface APIService {
     @GET("obtener_preguntas.php")
-    Call<List<Pregunta>> obtenerPreguntas();
+    Call<List<Pregunta>> obtenerPreguntasEnIdioma(@Query("lang") String languageCode);
 
     @GET("preguntas_por_categoria.php")
     Call<List<Pregunta>> obtenerPreguntasPorCategoria(@Query("categoria") int categoria);
+
+    @GET("preguntas_por_categoria.php")
+    Call<List<Pregunta>> obtenerPreguntasPorCategoriaEnIdioma(
+            @Query("categoria") int categoria,
+            @Query("lang") String languageCode
+    );
 
     @GET("obtener_partidas.php")
     Call<List<Partida>> obtenerPartidas();

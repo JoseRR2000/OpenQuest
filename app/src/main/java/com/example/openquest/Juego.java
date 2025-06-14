@@ -34,6 +34,7 @@ public class Juego extends AppCompatActivity {
     private boolean tiempoLimiteDesactivado;
     private boolean rondasLimiteDesactivadas;
     private String dificultad;
+    private String idioma;
     private TextView textoPuntuacion;
     private TextView textoPuntos;
     private List<Pregunta> listaPreguntas;
@@ -66,6 +67,7 @@ public class Juego extends AppCompatActivity {
 
         inicializar();
         dificultadRecibida();
+        configurarIdiomaDesdePrefs();
         obtenerPreguntas();
         seleccionRespuestas();
     }
@@ -154,6 +156,11 @@ public class Juego extends AppCompatActivity {
         }
     }
 
+    private void configurarIdiomaDesdePrefs() {
+        SharedPreferences prefs = getSharedPreferences("MisPreferencias", MODE_PRIVATE);
+        // Leer el idioma guardado, por defecto "es" si no hay nada guardado
+        idioma = prefs.getString("idioma", "es");
+    }
     private void obtenerPreguntas() {
         String modoJuego = getIntent().getStringExtra("modo");
 
@@ -168,7 +175,7 @@ public class Juego extends AppCompatActivity {
 
     private void obtenerTodasLasPreguntas() {
         Retrofit retro = new Retrofit();
-        retro.getApi().obtenerPreguntas().enqueue(new Callback<List<Pregunta>>() {
+        retro.getApi().obtenerPreguntasEnIdioma(idioma).enqueue(new Callback<List<Pregunta>>() {
             @Override
             public void onResponse(Call<List<Pregunta>> call, Response<List<Pregunta>> response) {
                 if (response.isSuccessful() && response.body() != null) {
@@ -189,7 +196,7 @@ public class Juego extends AppCompatActivity {
 
     private void obtenerPreguntasPorCategoria(int categoria) {
         Retrofit retro = new Retrofit();
-        retro.getApi().obtenerPreguntasPorCategoria(categoria).enqueue(new Callback<List<Pregunta>>() {
+        retro.getApi().obtenerPreguntasPorCategoriaEnIdioma(categoria, idioma).enqueue(new Callback<List<Pregunta>>() {
             @Override
             public void onResponse(Call<List<Pregunta>> call, Response<List<Pregunta>> response) {
                 if (response.isSuccessful() && response.body() != null) {

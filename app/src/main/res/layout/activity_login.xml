@@ -23,7 +23,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="INICIAR SESIÓN"
+                android:text="@string/login"
                 android:textColor="@color/black"
                 android:textSize="30sp"
                 android:textStyle="bold"
@@ -34,7 +34,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="20dp"
-                android:text="INTRODUCE TU EMAIL"
+                android:text="@string/enter_email"
                 android:textColor="@color/black"
                 >
             </TextView>
@@ -52,7 +52,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="20dp"
-                android:text="INTRODUCE TU CONTRASEÑA"
+                android:text="@string/enter_password"
                 android:textColor="@color/black"
                 >
             </TextView>
@@ -71,7 +71,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="20dp"
-                android:text="ENVIAR"
+                android:text="@string/send"
                 >
             </Button>
 

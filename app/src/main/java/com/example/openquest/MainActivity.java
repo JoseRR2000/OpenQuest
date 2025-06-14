@@ -1,7 +1,9 @@
 package com.example.openquest;
 
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.res.Configuration;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -11,6 +13,8 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
+
+import java.util.Locale;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -81,5 +85,20 @@ public class MainActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
+    }
+
+    @Override
+    protected void attachBaseContext(Context newBase) {
+        SharedPreferences prefs = newBase.getSharedPreferences("MisPreferencias", MODE_PRIVATE);
+        String idioma = prefs.getString("idioma", "es");
+
+        Locale nuevoLocale = new Locale(idioma);
+        Locale.setDefault(nuevoLocale);
+
+        Configuration config = newBase.getResources().getConfiguration();
+        config.setLocale(nuevoLocale);
+
+        Context context = newBase.createConfigurationContext(config);
+        super.attachBaseContext(context);
     }
 }

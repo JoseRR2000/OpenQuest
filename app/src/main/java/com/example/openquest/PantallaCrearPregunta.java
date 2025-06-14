@@ -99,32 +99,38 @@ public class PantallaCrearPregunta extends AppCompatActivity {
 
                     switch (categoria) {
                         case "GEOGRAFÍA":
+                        case "GEOGRAPHY":
                             mapeo = "1";
                             break;
                         case "HISTORIA":
+                        case "HISTORY":
                             mapeo = "2";
                             break;
                         case "ENTRETENIMIENTO":
+                        case "ENTERTAIMENT":
                             mapeo = "3";
                             break;
                         case "DEPORTES":
+                        case "SPORTS":
                             mapeo = "4";
                             break;
                         case "INFORMÁTICA":
+                        case "COMPUTING":
                             mapeo = "5";
                             break;
                         case "MEDICINA":
+                        case "MEDICINE":
                             mapeo = "6";
                             break;
                         default:
-                            Toast.makeText(PantallaCrearPregunta.this, "Error: Categoría no reconocida.", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(PantallaCrearPregunta.this, getString(R.string.category_not_found), Toast.LENGTH_SHORT).show();
                             return;
                     }
 
                     String idiomaSeleccionado = spinnerIdioma.getSelectedItem().toString();
 
                     if (pregunta.isEmpty() || respuesta1.isEmpty() || respuesta2.isEmpty() || respuesta3.isEmpty() || respuesta4.isEmpty() || respuestaCorrecta.isEmpty()) {
-                        Toast.makeText(PantallaCrearPregunta.this, "Por favor, rellena todos los campos.", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(PantallaCrearPregunta.this, getString(R.string.not_all_answers), Toast.LENGTH_SHORT).show();
                     }
                     else {
                         String[] respuestasOpciones = {respuesta1, respuesta2, respuesta3, respuesta4};
@@ -156,7 +162,7 @@ public class PantallaCrearPregunta extends AppCompatActivity {
                                     if (response.isSuccessful() && response.body() != null) {
                                         ApiResponse apiResponse = response.body();
                                         if (apiResponse.getMensaje() != null) {
-                                            Toast.makeText(PantallaCrearPregunta.this, apiResponse.getMensaje(), Toast.LENGTH_LONG).show();
+                                            Toast.makeText(PantallaCrearPregunta.this, getString(R.string.question_created), Toast.LENGTH_LONG).show();
                                             preguntaUsuario.setText("");
                                             respuesta1Usuario.setText("");
                                             respuesta2Usuario.setText("");
@@ -167,26 +173,26 @@ public class PantallaCrearPregunta extends AppCompatActivity {
                                             spinnerIdioma.setSelection(0);
                                             finish();
                                         } else if (apiResponse.getError() != null) {
-                                            Toast.makeText(PantallaCrearPregunta.this, "Error al crear pregunta: " + apiResponse.getError(), Toast.LENGTH_LONG).show();
+                                            Toast.makeText(PantallaCrearPregunta.this, getString(R.string.create_question_error) + apiResponse.getError(), Toast.LENGTH_LONG).show();
                                         }
                                     } else {
-                                        Toast.makeText(PantallaCrearPregunta.this, "Error al crear pregunta: HTTP " + response.code(), Toast.LENGTH_LONG).show();
+                                        Toast.makeText(PantallaCrearPregunta.this, getString(R.string.create_question_error_http) + response.code(), Toast.LENGTH_LONG).show();
                                     }
                                 }
 
                                 @Override
                                 public void onFailure(Call<ApiResponse> call, Throwable t) {
-                                    Toast.makeText(PantallaCrearPregunta.this, "Error de red: " + t.getMessage(), Toast.LENGTH_LONG).show();
+                                    Toast.makeText(PantallaCrearPregunta.this, getString(R.string.network_error) + t.getMessage(), Toast.LENGTH_LONG).show();
                                 }
                             });
                         }
                         else {
-                            Toast.makeText(PantallaCrearPregunta.this, "La respuesta correcta no coincide con ninguna de las opciones.", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(PantallaCrearPregunta.this, getString(R.string.responses_do_not_match), Toast.LENGTH_SHORT).show();
                         }
                     }
                 }
                 else {
-                    Toast.makeText(PantallaCrearPregunta.this, "Por favor, selecciona una categoría.", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(PantallaCrearPregunta.this, R.string.category_unselected_error, Toast.LENGTH_SHORT).show();
                 }
             }
         });

@@ -45,7 +45,6 @@ public class PantallaJuego extends AppCompatActivity {
     private boolean musicaActivada;
     private boolean tiempoLimiteDesactivado;
     private boolean rondasLimiteDesactivadas;
-    private Dificultad dificultad;
     private String dificultadSeleccionada;
     private final Handler handler = new Handler(Looper.getMainLooper());
     private Runnable actualizarRanking;
@@ -226,7 +225,7 @@ public class PantallaJuego extends AppCompatActivity {
                     controlarNavegacion(pestanaRanking, pestanaJugar, pestanaOpciones, pestanaEditor, pestanaLogros, lineaRanking, lineaJugar, lineaOpciones, lineaEditor, lineaLogros, true);
                 }
                 else {
-                    Toast.makeText(PantallaJuego.this, "Debes iniciar sesión para ver el ranking global.", Toast.LENGTH_LONG).show();
+                    Toast.makeText(PantallaJuego.this, getString(R.string.unable_view_ranking), Toast.LENGTH_LONG).show();
                 }
             }
         });
@@ -248,7 +247,7 @@ public class PantallaJuego extends AppCompatActivity {
                     controlarNavegacion(pestanaEditor, pestanaJugar, pestanaRanking, pestanaOpciones, pestanaLogros, lineaEditor, lineaJugar, lineaRanking, lineaOpciones, lineaLogros, false);
                 }
                 else {
-                    Toast.makeText(PantallaJuego.this, "Debes iniciar sesión para poder editar las preguntas.", Toast.LENGTH_LONG).show();
+                    Toast.makeText(PantallaJuego.this, getString(R.string.unable_view_editor), Toast.LENGTH_LONG).show();
                 }
             }
         });
@@ -263,7 +262,7 @@ public class PantallaJuego extends AppCompatActivity {
                     controlarNavegacion(pestanaLogros, pestanaJugar, pestanaRanking, pestanaOpciones, pestanaEditor, lineaLogros, lineaJugar, lineaRanking, lineaOpciones, lineaEditor, false);
                 }
                 else {
-                    Toast.makeText(PantallaJuego.this, "Debes iniciar sesión para poder conseguir y ver logros.", Toast.LENGTH_LONG).show();
+                    Toast.makeText(PantallaJuego.this, getString(R.string.unable_view_archievements), Toast.LENGTH_LONG).show();
                 }
             }
         });
@@ -379,7 +378,7 @@ public class PantallaJuego extends AppCompatActivity {
                     List<Partida> partidasRecibidas = response.body();
                     if (partidasRecibidas.isEmpty()) {
                         // Muestra un mensaje si no hay partidas
-                        Toast.makeText(PantallaJuego.this, "No hay partidas registradas.", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(PantallaJuego.this, getString(R.string.no_matches), Toast.LENGTH_SHORT).show();
                         listaPartidas.clear();
                     } else {
                         // Actualiza la lista del adaptador y notifica los cambios
@@ -388,13 +387,13 @@ public class PantallaJuego extends AppCompatActivity {
                         adapterPartidas.notifyDataSetChanged();
                     }
                 } else {
-                    Toast.makeText(PantallaJuego.this, "Error al cargar ranking: HTTP " + response.code(), Toast.LENGTH_LONG).show();
+                    Toast.makeText(PantallaJuego.this, getString(R.string.ranking_http_error) + response.code(), Toast.LENGTH_LONG).show();
                 }
             }
 
             @Override
             public void onFailure(Call<List<Partida>> call, Throwable t) {
-                Toast.makeText(PantallaJuego.this, "Error de red al cargar ranking: " + t.getMessage(), Toast.LENGTH_LONG).show();
+                Toast.makeText(PantallaJuego.this, getString(R.string.ranking_network_error) + t.getMessage(), Toast.LENGTH_LONG).show();
             }
         });
     }
@@ -410,7 +409,7 @@ public class PantallaJuego extends AppCompatActivity {
         spDificultad = findViewById(R.id.spinner_dificultad);
 
         String[] idiomas = {getString(R.string.english), getString(R.string.spanish)};
-        String[] dificultades = {"Fácil", "Normal", "Difícil"};
+        String[] dificultades = {getString(R.string.easy),  getString(R.string.normal), getString(R.string.hard)};
 
         /*Switches*/
         scSonido.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
@@ -490,13 +489,12 @@ public class PantallaJuego extends AppCompatActivity {
         spIdioma.setSelection(idiomaActual.equals("es") ? 1 : 0);
         spDificultad.setSelection(0);
 
-        final boolean[] primeraVez = {true};
-
         spIdioma.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            private boolean isInitialSelection = true;
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int posicion, long id) {
-                if (primeraVez[0]) {
-                    primeraVez[0] = false;
+                if (isInitialSelection) {
+                    isInitialSelection = false;
                     return;
                 }
 
@@ -504,10 +502,8 @@ public class PantallaJuego extends AppCompatActivity {
 
                 if (posicion == 0) {
                     nuevoIdioma = "en";
-                    bandera.setImageResource(R.drawable.bandera);
                 } else {
                     nuevoIdioma = "es";
-                    bandera.setImageResource(R.drawable.bandera);
                 }
 
                 cambiarIdioma(nuevoIdioma);
@@ -523,7 +519,6 @@ public class PantallaJuego extends AppCompatActivity {
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
                 dificultadSeleccionada = adapterView.getItemAtPosition(i).toString();
-                dificultad = obtenerRondasPorDificultad(dificultadSeleccionada);
             }
 
             @Override
@@ -532,23 +527,6 @@ public class PantallaJuego extends AppCompatActivity {
             }
         });
     }
-
-    private Dificultad obtenerRondasPorDificultad(String dificultad) {
-        switch (dificultad) {
-            case "Fácil":
-                return new Dificultad(15, 30000);
-
-            case "Normal":
-                return new Dificultad(10, 20000);
-
-            case "Difícil":
-                return new Dificultad(5, 10000);
-
-            default:
-                return new Dificultad(15, 30000);
-        }
-    }
-
     private void editor() {
         Button botonCrearPreguntas = findViewById(R.id.btn_crear);
         Button botonEditarPreguntas = findViewById(R.id.btn_editar);
@@ -610,13 +588,9 @@ public class PantallaJuego extends AppCompatActivity {
 
         if (!nuevoIdioma.equals(idiomaActual)) {
             prefs.edit().putString("idioma", nuevoIdioma).apply();
-            Locale nuevoLocale = new Locale(nuevoIdioma);
-            Locale.setDefault(nuevoLocale);
-            Configuration config = new Configuration();
-            config.setLocale(nuevoLocale);
-            getResources().updateConfiguration(config, getResources().getDisplayMetrics());
-
-            recreate();
+            Intent intent = new Intent(this, MainActivity.class);
+            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
+            startActivity(intent);
         }
     }
 

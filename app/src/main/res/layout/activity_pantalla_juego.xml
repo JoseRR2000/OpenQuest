@@ -502,7 +502,7 @@
                 android:id="@+id/tituloHistorial"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Ranking de Partidas"
+                android:text="@string/title_ranking"
                 android:textColor="@color/white"
                 android:textSize="24sp"
                 android:textStyle="bold"
@@ -941,7 +941,7 @@
                 android:id="@+id/btn_crear"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="CREAR PREGUNTA"
+                android:text="@string/create_question"
                 >
             </Button>
 
@@ -950,7 +950,7 @@
                 android:layout_marginTop="20dp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="EDITAR PREGUNTA"
+                android:text="@string/edit_question"
                 >
             </Button>
         </LinearLayout>

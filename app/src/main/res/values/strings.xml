@@ -17,9 +17,6 @@
     <string name="computing">COMPUTING</string>
     <string name="medicine">MEDICINE</string>
 
-    /*Ranking*/
-    <string name="empty_matches">THERE ARE NO SAVED GAMES</string>
-
     /*Options*/
     <string name="sound">SOUND</string>
     <string name="sound_effects">Sound effects</string>
@@ -34,15 +31,57 @@
     <string name="remove_time_limit">Remove time limit</string>
     <string name="english">English</string>
     <string name="spanish">Spanish</string>
+    <string name="easy">Easy</string>
+    <string name="normal">Normal</string>
+    <string name="hard">Hard</string>
 
     /*Login*/
     <string name="login">LOGIN</string>
     <string name="register">CREATE AN ACCOUNT</string>
     <string name="guest">LOGIN AS A GUEST</string>
     <string name="exit">EXIT</string>
+    <string name="enter_email">ENTER YOUR EMAIL</string>
+    <string name="enter_password">ENTER YOUR PASSWORD</string>
 
+    /*Register*/
+    <string name="put_a_name">Put a name</string>
+    <string name="put_an_email">Put an email</string>
+    <string name="put_a_password">Put a password</string>
+    <string name="send">SEND</string>
+
+    /*Ranking*/
+    <string name="title_ranking">Match Ranking</string>
+    <string name="ranking_network_error">Network error while loading ranking: </string>
+    <string name="ranking_http_error">Error loading ranking: HTTP </string>
+    <string name="no_matches">No matches found</string>
+    <string name="unable_view_ranking">You must log in to view the global ranking</string>
 
     /*Editor*/
+    <string name="create_question">CREATE QUESTION</string>
+    <string name="edit_question">EDIT QUESTION</string>
+    <string name="category">category</string>
+    <string name="select_category">SELECT CATEGORY</string>
+    <string name="question">Question</string>
+    <string name="answer_1">Answer 1</string>
+    <string name="answer_2">Answer 2</string>
+    <string name="answer_3">Answer 3</string>
+    <string name="answer_4">Answer 4</string>
+    <string name="correct_answer">Correct Answer</string>
+    <string name="send_question">SEND QUESTION</string>
+    <string name="unable_view_editor">You must log in to be able to edit the questions.</string>
+    <string name="category_unselected_error">Please, select a category</string>
+    <string name="not_all_answers">Please fill out all the fields.</string>
+    <string name="responses_do_not_match">The correct answer does not match any of the options.</string>
+    <string name="network_error">Network error: </string>
+    <string name="create_question_error">Failed to create question: </string>
+    <string name="create_question_error_http">Failed to create question: HTTP </string>
+    <string name="category_not_found">Error: Category not found.</string>
+    <string name="question_created">Question created</string>
+
+    /*Logros*/
+    <string name="unable_view_archievements">You must log in to be able to obtain and view achievements.</string>
+
+
     <string-array name="idiomas_pregunta">
         <item>es</item>
         <item>en</item>

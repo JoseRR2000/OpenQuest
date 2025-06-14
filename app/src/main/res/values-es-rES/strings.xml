@@ -18,9 +18,6 @@
     <string name="computing">INFORMÁTICA</string>
     <string name="medicine">MEDICINA</string>
 
-    /*Ranking*/
-    <string name="empty_matches">NO HAY PARTIDAS ALMACENADAS</string>
-
     /*Opciones*/
     <string name="sound">SONIDO</string>
     <string name="sound_effects">Efectos de sonido</string>
@@ -35,14 +32,56 @@
     <string name="remove_time_limit">Eliminar límite de tiempo</string>
     <string name="english">Ingles</string>
     <string name="spanish">Español</string>
+    <string name="easy">Fácil</string>
+    <string name="normal">Normal</string>
+    <string name="hard">Difícil</string>
 
     /*Inicio Sesion*/
     <string name="login">INICIAR SESIÓN</string>
     <string name="register">REGISTRARSE</string>
     <string name="guest">ENTRAR COMO INVITADO</string>
+    <string name="enter_email">INTRODUCE TU EMAIL</string>
+    <string name="enter_password">INTRODUCE TU CONTRASEÑA</string>
     <string name="exit">SALIR</string>
 
+    /*Registrarse*/
+    <string name="put_a_name">Introduce un nombre</string>
+    <string name="put_an_email">Introduce un email</string>
+    <string name="put_a_password">Introduce una contraseña</string>
+    <string name="send">ENVIAR</string>
+
+    /*Ranking*/
+    <string name="title_ranking">Ranking de Partidas</string>
+    <string name="ranking_network_error">"Error de red al cargar ranking: "</string>
+    <string name="ranking_http_error">Error al cargar ranking: HTTP </string>
+    <string name="no_matches">No hay partidas registradas</string>
+    <string name="unable_view_ranking">Debes iniciar sesión para ver el ranking global</string>
+
     /*Editor*/
+    <string name="create_question">CREAR PREGUNTA</string>
+    <string name="edit_question">EDITAR PREGUNTA</string>
+    <string name="category">categoría</string>
+    <string name="select_category">SELECCIONA UNA CATEGORÍA</string>
+    <string name="question">Pregunta</string>
+    <string name="answer_1">Respuesta 1</string>
+    <string name="answer_2">Respuesta 2</string>
+    <string name="answer_3">Respuesta 3</string>
+    <string name="answer_4">Respuesta 4</string>
+    <string name="correct_answer">Respuesta Correcta</string>
+    <string name="send_question">ENVIAR PREGUNTA</string>
+    <string name="unable_view_editor">Debes iniciar sesión para poder editar las preguntas</string>
+    <string name="category_unselected_error">Por favor, selecciona una categoría</string>
+    <string name="not_all_answers">Por favor, rellena todos los campos.</string>
+    <string name="responses_do_not_match">La respuesta correcta no coincide con ninguna de las opciones.</string>
+    <string name="network_error">Error de red: </string>
+    <string name="create_question_error">Error al crear pregunta: </string>
+    <string name="create_question_error_http">Error al crear pregunta: HTTP </string>
+    <string name="category_not_found">Error: Categoría no reconocida.</string>
+    <string name="question_created">Pregunta creada</string>
+
+    /*Logros*/
+    <string name="unable_view_archievements">Debes iniciar sesión para poder conseguir y ver logros</string>
+
     <string-array name="idiomas_pregunta">
         <item>es</item>
         <item>en</item>

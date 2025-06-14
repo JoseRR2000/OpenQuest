@@ -24,7 +24,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="REGÍSTRATE"
+                android:text="@string/register"
                 android:textColor="@color/black"
                 android:textStyle="bold"
                 android:textSize="30sp"
@@ -34,7 +34,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Introduce un nombre"
+                android:text="@string/put_a_name"
                 android:textColor="@color/black"
                 android:layout_marginTop="30dp"
                 >
@@ -53,7 +53,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="20dp"
-                android:text="Introduce un email"
+                android:text="@string/put_an_email"
                 android:textColor="@color/black"
                 >
             </TextView>
@@ -71,7 +71,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="20dp"
-                android:text="Introduce una contraseña"
+                android:text="@string/put_a_password"
                 android:textColor="@color/black"
                 >
             </TextView>
@@ -90,7 +90,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="20dp"
-                android:text="ENVIAR"
+                android:text="@string/send"
                 >
             </Button>
 

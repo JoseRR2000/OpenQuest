@@ -4,6 +4,7 @@ import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.os.CountDownTimer;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.LinearLayout;
@@ -16,6 +17,7 @@ import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
@@ -38,6 +40,7 @@ public class Juego extends AppCompatActivity {
     private TextView textoPuntuacion;
     private TextView textoPuntos;
     private List<Pregunta> listaPreguntas;
+    private List<PreguntasPorPartida> preguntasRegistradasEnPartida;
     private int indicePregunta;
     private TextView textoPregunta;
     private TextView respuesta1;
@@ -80,6 +83,7 @@ public class Juego extends AppCompatActivity {
         btnSiguiente = findViewById(R.id.btn_siguiente);
         tiempo = findViewById(R.id.texto_tiempo);
         idUsuarioLogeado = prefs.getInt(KEY_USER_ID, -1);
+        preguntasRegistradasEnPartida = new ArrayList<>();
 
         Bundle extras = getIntent().getExtras();
         if (extras != null) {
@@ -241,7 +245,6 @@ public class Juego extends AppCompatActivity {
         if ((indicePregunta >= rondas && !rondasLimiteDesactivadas) || indicePregunta >= listaPreguntas.size()) {
             Toast.makeText(this, getString(R.string.finish_game), Toast.LENGTH_LONG).show();
             finalizarJuego();
-            finish();
         }
         else {
             Pregunta pregunta = listaPreguntas.get(indicePregunta);
@@ -312,8 +315,9 @@ public class Juego extends AppCompatActivity {
 
         Pregunta pregunta = listaPreguntas.get(indicePregunta);
         String respuestaCorrecta = pregunta.getRespuestaCorrecta();
+        boolean esCorrecta = seleccionada.getText().toString().equals(respuestaCorrecta);
 
-        if (seleccionada.getText().toString().equals(respuestaCorrecta)) {
+        if (esCorrecta) {
             cajaCorrecta.setBackgroundColor(Color.GREEN);
             cajaIncorrecta1.setClickable(false);
             cajaIncorrecta2.setClickable(false);
@@ -352,6 +356,9 @@ public class Juego extends AppCompatActivity {
                 cajaRespuesta3.setClickable(false);
             }
         }
+
+        preguntasRegistradasEnPartida.add(new PreguntasPorPartida(pregunta.getIdPregunta(), indicePregunta + 1, esCorrecta));
+
         btnSiguiente.setVisibility(View.VISIBLE);
 
         btnSiguiente.setOnClickListener(new View.OnClickListener() {
@@ -381,6 +388,7 @@ public class Juego extends AppCompatActivity {
                     nuevaPartida.setPuntuacion(puntuacion);
                     nuevaPartida.setDificultad(dificultad);
                     nuevaPartida.setRondasJugadas(rondas);
+                    nuevaPartida.setPreguntasPartida(preguntasRegistradasEnPartida);
 
                     retro.getApi().guardarPartida(nuevaPartida).enqueue(new Callback<ApiResponse>() {
                         @Override
@@ -392,20 +400,24 @@ public class Juego extends AppCompatActivity {
                             } else {
                                 Toast.makeText(Juego.this, getString(R.string.server_error) + response.code(), Toast.LENGTH_LONG).show();
                             }
+                            finish();
                         }
 
                         @Override
                         public void onFailure(Call<ApiResponse> call, Throwable t) {
+                            Log.e("JuegoFinalizado", "Error en la llamada a la API: " + t.getMessage(), t);
                             Toast.makeText(Juego.this, getString(R.string.save_game_error) + t.getMessage(), Toast.LENGTH_LONG).show();
+                            finish();
                         }
                     });
                 }
             }
             else {
                 Toast.makeText(Juego.this, getString(R.string.login_require_to_save), Toast.LENGTH_LONG).show();
+                finish();
             }
-            finish();
         }
+        finish();
     }
 
     private void abortarJuego() {

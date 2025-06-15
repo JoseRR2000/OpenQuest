@@ -1,20 +1,22 @@
 package com.example.openquest;
 
 
+import com.google.gson.annotations.SerializedName;
+
 import java.util.Date; // Date para la fecha
+import java.util.List;
 
 public class Partida {
     private int id;
     private int id_jugador;
     private String jugador;
-    private String resultado;
-    private int puntuacion; // Nombre del campo para la puntuación
-    private Date fecha;     // Tipo Date para la fecha)
+    private int puntuacion;
+    private Date fecha;
 
-    private String dificultad; // Para almacenar la dificultad ("Fácil", "Normal", "Difícil")
-    private int rondasJugadas; // Para almacenar el número de rondas jugadas
+    private String dificultad;
+    private int rondasJugadas;
+    private List<PreguntasPorPartida> preguntasPartida;
 
-    // Constructor sin argumentos (necesario para Gson/Retrofit)
     public Partida() {
 
     }
@@ -28,10 +30,6 @@ public class Partida {
     public String getJugador() {
         return jugador;
     }
-    public String getResultado() {
-        return resultado;
-    }
-
     public int getPuntuacion() {
         return puntuacion;
     }
@@ -48,6 +46,10 @@ public class Partida {
         return rondasJugadas;
     }
 
+    public List<PreguntasPorPartida> getPreguntasPartida() {
+        return preguntasPartida;
+    }
+
     public void setId(int id) { this.id = id; }
     public void setId_jugador(int id_jugador) {
         this.id_jugador = id_jugador;
@@ -55,9 +57,11 @@ public class Partida {
     public void setJugador(String jugador) {
         this.jugador = jugador;
     }
-    public void setResultado(String resultado) { this.resultado = resultado; }
     public void setPuntuacion(int puntuacion) { this.puntuacion = puntuacion; }
     public void setFecha(Date fecha) { this.fecha = fecha; }
     public void setDificultad(String dificultad) { this.dificultad = dificultad; }
     public void setRondasJugadas(int rondasJugadas) { this.rondasJugadas = rondasJugadas; }
+    public void setPreguntasPartida(List<PreguntasPorPartida> preguntasPartida) {
+        this.preguntasPartida = preguntasPartida;
+    }
 }

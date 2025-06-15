@@ -45,6 +45,8 @@
     <string name="short_password">The password must have at least 6 characters.</string>
     <string name="update_profile_error">Error updting profile: </string>
     <string name="delete_profile_error">Error deleting profile: </string>
+    <string name="update_profile_successful">profile successfully edited</string>
+    <string name="delete_profile_successful">Profile successfully deleted</string>
 
     /*Login*/
     <string name="login">LOGIN</string>

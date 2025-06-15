@@ -45,6 +45,9 @@
     <string name="short_password">La contraseña debe tener al menos 6 caracteres</string>
     <string name="update_profile_error">Error al actualizar perfil: </string>
     <string name="delete_profile_error">Error al eliminar: </string>
+    <string name="update_profile_successful">Perfil editado exitosamente</string>
+    <string name="delete_profile_successful">Perfil eliminado exitosamente</string>
+
 
     /*Inicio Sesion*/
     <string name="login">INICIAR SESIÓN</string>

@@ -3,7 +3,6 @@ package com.example.openquest;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -26,7 +25,7 @@ public class ActivityAdministracionPerfil extends AppCompatActivity {
 
     private EditText txtNuevoNombre;
     private EditText txtNuevoPassword;
-    private int loggedInUserId;
+    private int usuarioLogueadoId;
     private String nombreUsuarioLogeado;
     private Button botonEditarPerfil;
     private Button botonEliminarPerfil;
@@ -58,7 +57,7 @@ public class ActivityAdministracionPerfil extends AppCompatActivity {
         botonEditarPerfil.setText(getString(R.string.change_credentials).toUpperCase());
         //Recuperar los datos del usuario de SharedPreferences
         SharedPreferences prefs = getSharedPreferences(PREFS_NAME, MODE_PRIVATE);
-        loggedInUserId = prefs.getInt(KEY_USER_ID, -1); // -1 como valor por defecto si no se encuentra
+        usuarioLogueadoId = prefs.getInt(KEY_USER_ID, -1); // -1 como valor por defecto si no se encuentra
         nombreUsuarioLogeado = prefs.getString(KEY_USERNAME, "Invitado"); // "Invitado" como valor por defecto
 
         if (nombreUsuarioLogeado != null && !nombreUsuarioLogeado.isEmpty()) {
@@ -71,7 +70,7 @@ public class ActivityAdministracionPerfil extends AppCompatActivity {
                 String nuevoNombre = txtNuevoNombre.getText().toString().trim();
                 String nuevoPassword = txtNuevoPassword.getText().toString().trim();
 
-                if (loggedInUserId == -1) {
+                if (usuarioLogueadoId == -1) {
                     Toast.makeText(ActivityAdministracionPerfil.this, getString(R.string.id_error), Toast.LENGTH_LONG).show();
                     return;
                 }
@@ -90,7 +89,7 @@ public class ActivityAdministracionPerfil extends AppCompatActivity {
                 }
 
                 Map<String, String> datosUsuario = new HashMap<>();
-                datosUsuario.put("user_id", String.valueOf(loggedInUserId)); // Envía el ID del usuario
+                datosUsuario.put("user_id", String.valueOf(usuarioLogueadoId)); // Envía el ID del usuario
 
                 if (!nuevoNombre.isEmpty()) {
                     datosUsuario.put("new_name", nuevoNombre);
@@ -106,7 +105,7 @@ public class ActivityAdministracionPerfil extends AppCompatActivity {
                     public void onResponse(Call<ApiResponse> call, Response<ApiResponse> response) {
                         ApiResponse apiResponse = response.body();
                         if (apiResponse.getMensaje() != null) {
-                            Toast.makeText(ActivityAdministracionPerfil.this, apiResponse.getMensaje(), Toast.LENGTH_LONG).show();
+                            Toast.makeText(ActivityAdministracionPerfil.this, getString(R.string.update_profile_successful), Toast.LENGTH_LONG).show();
 
                             if (!nuevoNombre.isEmpty()) {
                                 SharedPreferences.Editor editor = getSharedPreferences(PREFS_NAME, MODE_PRIVATE).edit();
@@ -132,7 +131,7 @@ public class ActivityAdministracionPerfil extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 Map<String, String> params = new HashMap<>();
-                params.put("user_id", String.valueOf(loggedInUserId)); // Envía el ID del usuario a eliminar
+                params.put("user_id", String.valueOf(usuarioLogueadoId));
 
                 Retrofit retro = new Retrofit();
 
@@ -142,7 +141,7 @@ public class ActivityAdministracionPerfil extends AppCompatActivity {
                         ApiResponse apiResponse = response.body();
 
                         if (apiResponse.isSuccess()) {
-                            Toast.makeText(ActivityAdministracionPerfil.this, apiResponse.getMessage(), Toast.LENGTH_LONG).show();
+                            Toast.makeText(ActivityAdministracionPerfil.this, getString(R.string.delete_profile_successful), Toast.LENGTH_LONG).show();
 
                             // Desloguear al usuario después de eliminar el perfil
                             SharedPreferences prefs = getSharedPreferences(PREFS_NAME, MODE_PRIVATE);

@@ -91,14 +91,13 @@ public class Juego extends AppCompatActivity {
             rondasLimiteDesactivadas = extras.getBoolean("rondasLimiteDesactivadas", false);
         }
 
-        // Si el tiempo límite está desactivado, el TextView del tiempo no debería ser visible
         if (tiempoLimiteDesactivado) {
             if (tiempo != null) {
-                tiempo.setVisibility(View.GONE); // Oculta el contador de tiempo
+                tiempo.setVisibility(View.GONE);
             }
         } else {
             if (tiempo != null) {
-                tiempo.setVisibility(View.VISIBLE); // Asegúrate de que el contador sea visible si no está desactivado
+                tiempo.setVisibility(View.VISIBLE);
             }
         }
     }

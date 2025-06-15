@@ -8,21 +8,19 @@ public class ApiResponse {
     private String mensaje;
     @SerializedName("error")
     private String error;
-    @SerializedName("success") // El nombre en el JSON de PHP
+    @SerializedName("success")
     private boolean success;
 
-    @SerializedName("message") // El nombre en el JSON de PHP
+    @SerializedName("message")
     private String message;
 
-    @SerializedName("id") // El nombre en el JSON de PHP (puede ser null si es un error)
-    private Integer id; // Usamos Integer (objeto) en lugar de int (primitivo) para permitir valores nulos
+    @SerializedName("id")
+    private Integer id;
 
-    // Constructor sin argumentos (necesario para Gson)
     public ApiResponse() {
 
     }
 
-    // Getters para acceder a los datos
     public boolean isSuccess() {
         return success;
     }

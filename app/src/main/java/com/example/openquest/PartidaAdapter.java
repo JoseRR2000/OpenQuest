@@ -1,7 +1,7 @@
 package com.example.openquest;
 
-import android.content.Context; // <-- Importar Context
-import android.content.SharedPreferences; // <-- Para leer preferencias de idioma
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,16 +16,15 @@ import java.util.Locale;
 
 public class PartidaAdapter extends RecyclerView.Adapter<PartidaAdapter.ViewHolder> {
     private List<Partida> partidas;
-    private Context context; // <-- Nueva variable para el Context
-    private String idiomaGuardado; // <-- Para guardar el idioma de la preferencia
+    private Context context;
+    private String idiomaGuardado;
 
     // Constructor que acepta el Context
     public PartidaAdapter(List<Partida> partidas, Context context) {
         this.partidas = partidas;
         this.context = context;
-        // Obtener el idioma guardado al inicializar el adaptador
         SharedPreferences prefs = context.getSharedPreferences("MyPrefs", Context.MODE_PRIVATE);
-        idiomaGuardado = prefs.getString("MisPreferencias", "es"); // Usa la misma clave "MisPreferencias"
+        idiomaGuardado = prefs.getString("MisPreferencias", "es");
     }
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
@@ -62,7 +61,7 @@ public class PartidaAdapter extends RecyclerView.Adapter<PartidaAdapter.ViewHold
                 dificultadTexto = context.getString(R.string.hard);
                 break;
             default:
-                dificultadTexto = p.getDificultad(); // Fallback
+                dificultadTexto = p.getDificultad();
                 break;
         }
         holder.textoDificultad.setText(context.getString(R.string.difficulty) + ": " + dificultadTexto);

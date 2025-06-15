@@ -48,27 +48,6 @@ public class PreguntaAdapter extends RecyclerView.Adapter<PreguntaAdapter.Pregun
         return listaPreguntas.size();
     }
 
-    private String getCategoriaTexto(String categoriaId) {
-        // Aunque ya hicimos la comprobación en onBindViewHolder,
-        // este método debería estar diseñado para recibir un String que NO sea null
-        // Si por alguna razón llega null aquí (lo cual no debería con la comprobación anterior),
-        // es una situación de error interna.
-        if (categoriaId == null) {
-            return "ERROR: Categoría nula"; // Esto es más para depuración
-        }
-
-        // Tu lógica actual para mapear el ID de categoría a un texto legible
-        switch (categoriaId) {
-            case "1": return "Geografía";
-            case "2": return "Historia";
-            case "3": return "Entretenimiento";
-            case "4": return "Deportes";
-            case "5": return "Informática";
-            case "6": return "Medicina";
-            default: return "Desconocida";
-        }
-    }
-
     public static class PreguntaViewHolder extends RecyclerView.ViewHolder {
         public TextView textViewPregunta;
         public Button btnEditar;

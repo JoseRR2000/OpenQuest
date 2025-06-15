@@ -4,9 +4,6 @@ public class Logro {
     private String nombre;
     private String descripcion;
     private boolean conseguido;
-
-    //Getters y Setters
-
     public String getNombre() {
         return nombre;
     }

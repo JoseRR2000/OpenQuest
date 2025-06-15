@@ -24,12 +24,6 @@ public class PantallaCrearPregunta extends AppCompatActivity {
 
     private Spinner spinnerIdioma;
     private RadioGroup radioGroupCategorias;
-    private RadioButton radioButtonGeografia;
-    private RadioButton radioButtonHistoria;
-    private RadioButton radioButtonEntretenimiento;
-    private RadioButton radioButtonDeportes;
-    private RadioButton radioButtonInformatica;
-    private RadioButton radioButtonMedicina;
     private EditText preguntaUsuario;
     private EditText respuesta1Usuario;
     private EditText respuesta2Usuario;
@@ -57,12 +51,6 @@ public class PantallaCrearPregunta extends AppCompatActivity {
     private void inicializar() {
         spinnerIdioma = findViewById(R.id.spinner_idioma_crear_pregunta);
         radioGroupCategorias = findViewById(R.id.rg_categoria_crear_pregunta);
-        radioButtonGeografia = findViewById(R.id.rb_geografia_crear_pregunta);
-        radioButtonHistoria = findViewById(R.id.rb_historia_crear_pregunta);
-        radioButtonEntretenimiento = findViewById(R.id.rb_entretenimiento_crear_pregunta);
-        radioButtonDeportes = findViewById(R.id.rb_deportes_crear_pregunta);
-        radioButtonInformatica = findViewById(R.id.rb_informatica_crear_pregunta);
-        radioButtonMedicina = findViewById(R.id.rb_medicina_crear_pregunta);
         preguntaUsuario = findViewById(R.id.pregunta_usuario);
         respuesta1Usuario = findViewById(R.id.respuesta1_suario);
         respuesta2Usuario = findViewById(R.id.respuesta2_usuario);
@@ -126,8 +114,6 @@ public class PantallaCrearPregunta extends AppCompatActivity {
                             Toast.makeText(PantallaCrearPregunta.this, getString(R.string.category_not_found), Toast.LENGTH_SHORT).show();
                             return;
                     }
-
-                    String idiomaSeleccionado = spinnerIdioma.getSelectedItem().toString();
 
                     if (pregunta.isEmpty() || respuesta1.isEmpty() || respuesta2.isEmpty() || respuesta3.isEmpty() || respuesta4.isEmpty() || respuestaCorrecta.isEmpty()) {
                         Toast.makeText(PantallaCrearPregunta.this, getString(R.string.not_all_answers), Toast.LENGTH_SHORT).show();

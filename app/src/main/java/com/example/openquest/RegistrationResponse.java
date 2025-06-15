@@ -9,13 +9,11 @@ public class RegistrationResponse {
     @SerializedName("message")
     private String message;
 
-    // Constructor (opcional)
     public RegistrationResponse(boolean success, String message) {
         this.success = success;
         this.message = message;
     }
 
-    // Getters
     public boolean isSuccess() {
         return success;
     }
@@ -24,7 +22,6 @@ public class RegistrationResponse {
         return message;
     }
 
-    // Setters (opcionales si solo deserializas)
     public void setSuccess(boolean success) {
         this.success = success;
     }

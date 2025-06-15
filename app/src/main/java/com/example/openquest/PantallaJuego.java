@@ -377,11 +377,9 @@ public class PantallaJuego extends AppCompatActivity {
                 if (response.isSuccessful() && response.body() != null) {
                     List<Partida> partidasRecibidas = response.body();
                     if (partidasRecibidas.isEmpty()) {
-                        // Muestra un mensaje si no hay partidas
                         Toast.makeText(PantallaJuego.this, getString(R.string.no_matches), Toast.LENGTH_SHORT).show();
                         listaPartidas.clear();
                     } else {
-                        // Actualiza la lista del adaptador y notifica los cambios
                         listaPartidas.clear();
                         listaPartidas.addAll(partidasRecibidas);
                         adapterPartidas.notifyDataSetChanged();

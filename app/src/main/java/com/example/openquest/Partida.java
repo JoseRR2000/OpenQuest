@@ -1,9 +1,6 @@
 package com.example.openquest;
 
-
-import com.google.gson.annotations.SerializedName;
-
-import java.util.Date; // Date para la fecha
+import java.util.Date;
 import java.util.List;
 
 public class Partida {

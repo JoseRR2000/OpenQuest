@@ -2,6 +2,8 @@ package com.example.openquest;
 
 import android.content.SharedPreferences;
 import android.graphics.Color;
+import android.media.AudioAttributes;
+import android.media.SoundPool;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.util.Log;
@@ -35,6 +37,7 @@ public class Juego extends AppCompatActivity {
     private int puntuacion = 0;
     private boolean tiempoLimiteDesactivado;
     private boolean rondasLimiteDesactivadas;
+    private boolean sonidosActivados;
     private String dificultad;
     private String idioma;
     private TextView textoPuntuacion;
@@ -42,6 +45,8 @@ public class Juego extends AppCompatActivity {
     private List<Pregunta> listaPreguntas;
     private List<PreguntasPorPartida> preguntasRegistradasEnPartida;
     private int indicePregunta;
+    private int sonidoRespuestaCorrecta;
+    private int sonidoRespuestaIncorrecta;
     private TextView textoPregunta;
     private TextView respuesta1;
     private TextView respuesta2;
@@ -52,6 +57,7 @@ public class Juego extends AppCompatActivity {
     private LinearLayout cajaRespuesta3;
     private LinearLayout cajaRespuesta4;
     private Button btnSiguiente;
+    private SoundPool efecto;
 
     private static final String PREFS_NAME = "MyPrefs";
     private static final String KEY_LOGGED_IN = "isLoggedIn";
@@ -73,16 +79,19 @@ public class Juego extends AppCompatActivity {
         dificultadRecibida();
         obtenerPreguntas();
         seleccionRespuestas();
+        iniciarSoundPool();
     }
 
     private void inicializar() {
         SharedPreferences prefs = getSharedPreferences(PREFS_NAME, MODE_PRIVATE);
+        SharedPreferences prefs2 = getSharedPreferences("MisPreferencias", MODE_PRIVATE);
 
         textoPuntuacion = findViewById(R.id.texto_puntuacion);
         textoPuntos = findViewById(R.id.texto_puntos);
         btnSiguiente = findViewById(R.id.btn_siguiente);
         tiempo = findViewById(R.id.texto_tiempo);
         idUsuarioLogeado = prefs.getInt(KEY_USER_ID, -1);
+        sonidosActivados = prefs2.getBoolean("efectos", true);
         preguntasRegistradasEnPartida = new ArrayList<>();
 
         Bundle extras = getIntent().getExtras();
@@ -329,6 +338,7 @@ public class Juego extends AppCompatActivity {
                 textoPuntuacion.setText(getString(R.string.game_score));
                 textoPuntos.setText(String.valueOf(puntuacion));
             }
+            reproducirSonidoRespuestaCorrecta();
         }
         else {
             cajaCorrecta.setBackgroundColor(Color.RED);
@@ -354,6 +364,7 @@ public class Juego extends AppCompatActivity {
                 cajaRespuesta2.setClickable(false);
                 cajaRespuesta3.setClickable(false);
             }
+            reproducirSonidoRespuestaIncorrecta();
         }
 
         preguntasRegistradasEnPartida.add(new PreguntasPorPartida(pregunta.getIdPregunta(), indicePregunta + 1, esCorrecta));
@@ -422,5 +433,59 @@ public class Juego extends AppCompatActivity {
     private void abortarJuego() {
         Partida nuevaPartida = new Partida();
         nuevaPartida.setPuntuacion(0);
+    }
+
+    private void iniciarSoundPool() {
+        AudioAttributes audioAttributes = new AudioAttributes.Builder()
+                .setUsage(AudioAttributes.USAGE_GAME)
+                .setContentType(AudioAttributes.CONTENT_TYPE_SONIFICATION)
+                .build();
+
+        efecto = new SoundPool.Builder()
+                .setAudioAttributes(audioAttributes)
+                .build();
+
+        sonidoRespuestaCorrecta = efecto.load(this, R.raw.respuesta_correcta, 1);
+        sonidoRespuestaIncorrecta = efecto.load(this, R.raw.respuesta_incorrecta, 1);
+
+        // Opcional: Escuchar cuando los sonidos terminan de cargar
+        efecto.setOnLoadCompleteListener(new SoundPool.OnLoadCompleteListener() {
+            @Override
+            public void onLoadComplete(SoundPool soundPool, int sampleId, int status) {
+                if (status == 0) {
+                    if (sampleId == sonidoRespuestaCorrecta) {
+                        Log.d("SoundPool", "Sonido de acierto cargado!");
+                    } else if (sampleId == sonidoRespuestaIncorrecta) {
+                        Log.d("SoundPool", "Sonido de fallo cargado!");
+                    }
+                } else {
+                    Log.e("SoundPool", "Error al cargar sonido con ID: " + sampleId + ", Estado: " + status);
+                }
+            }
+        });
+    }
+
+    private void reproducirSonidoRespuestaCorrecta() {
+        if (efecto != null && sonidoRespuestaCorrecta != 0 && sonidosActivados) {
+            efecto.play(sonidoRespuestaCorrecta, 1.0f, 1.0f, 0, 0, 1.0f);
+        }
+    }
+
+    private void reproducirSonidoRespuestaIncorrecta() {
+        if (efecto != null && sonidoRespuestaIncorrecta != 0 && sonidosActivados) {
+            efecto.play(sonidoRespuestaIncorrecta, 1.0f, 1.0f, 0, 0, 1.0f);
+        }
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        if (contador != null) {
+            contador.cancel();
+        }
+        if (efecto != null) {
+            efecto.release();
+            efecto = null;
+        }
     }
 }

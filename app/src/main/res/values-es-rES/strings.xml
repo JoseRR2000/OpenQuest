@@ -103,6 +103,7 @@
     <string name="question_created">Pregunta creada</string>
     <string name="edit">Editar</string>
     <string name="change_question">CAMBIAR PREGUNTA</string>
+    <string name="edited_question">Pregunta editada</string>
 
     /*Logros*/
     <string name="unable_view_archievements">Debes iniciar sesión para poder conseguir y ver logros</string>

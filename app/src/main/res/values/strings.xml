@@ -102,6 +102,7 @@
     <string name="question_created">Question created</string>
     <string name="edit">Edit</string>
     <string name="change_question">CHANGE QUESTION</string>
+    <string name="edited_question">Edited question</string>
 
 
     /*Archievements*/

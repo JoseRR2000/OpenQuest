@@ -55,7 +55,6 @@ public class ActivityAdministracionPerfil extends AppCompatActivity {
         botonEliminarPerfil = findViewById(R.id.btn_eliminar_perfil);
 
         botonEditarPerfil.setText(getString(R.string.change_credentials).toUpperCase());
-        //Recuperar los datos del usuario de SharedPreferences
         SharedPreferences prefs = getSharedPreferences(PREFS_NAME, MODE_PRIVATE);
         usuarioLogueadoId = prefs.getInt(KEY_USER_ID, -1); // -1 como valor por defecto si no se encuentra
         nombreUsuarioLogeado = prefs.getString(KEY_USERNAME, "Invitado"); // "Invitado" como valor por defecto
@@ -89,7 +88,7 @@ public class ActivityAdministracionPerfil extends AppCompatActivity {
                 }
 
                 Map<String, String> datosUsuario = new HashMap<>();
-                datosUsuario.put("user_id", String.valueOf(usuarioLogueadoId)); // Envía el ID del usuario
+                datosUsuario.put("user_id", String.valueOf(usuarioLogueadoId));
 
                 if (!nuevoNombre.isEmpty()) {
                     datosUsuario.put("new_name", nuevoNombre);

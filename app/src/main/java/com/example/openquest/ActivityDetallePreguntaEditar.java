@@ -107,7 +107,7 @@ public class ActivityDetallePreguntaEditar extends AppCompatActivity {
                                 if (response.isSuccessful() && response.body() != null) {
                                     ApiResponse apiResponse = response.body();
                                     if (apiResponse.getMensaje() != null) {
-                                        Toast.makeText(ActivityDetallePreguntaEditar.this, apiResponse.getMensaje(), Toast.LENGTH_LONG).show();
+                                        Toast.makeText(ActivityDetallePreguntaEditar.this, getString(R.string.edited_question), Toast.LENGTH_LONG).show();
                                         preguntaEditada.setText("");
                                         respuesta1Editada.setText("");
                                         respuesta2Editada.setText("");
